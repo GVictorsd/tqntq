@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>P1</title>
+</head>
+<body>
+        <input type="text" id="name" />
+        <!-- <input type="text" id="nameSpace" /> -->
+        <button onclick="create()">Create</button>
+        <button onclick="join()">join</button>
+</body>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    var username = document.getElementById('name');
+    // var namespace = document.getElementById('nameSpace');
+    const namespace = '/dynamic-0';
+    var socket = io(namespace);
+
+    function create() {
+        if(username.value){
+            socket.emit('createUser', username.value);
+            username.value = '';
+        }
+    }
+    socket.on('playersList', function(playersList){
+        console.log(playersList);
+    });
+    
+    function join(){
+        if(username.value){
+            console.log('join: ' + username.value);
+            username.value = '';
+        }
+    }
+
+</script>
+</html>
