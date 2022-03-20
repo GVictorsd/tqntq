@@ -7,35 +7,36 @@
     <title>socketio</title>
 </head>
 <body>
-    <ul id="message"></ul>
-    <form action="" id="form">
-        <input type="text" id="input"/><button>Send</button>
-    </form>
-    <div id="messages"></div>
+    <input type="text" id="name"  />
+    <input type="text" id="nameSpace"  />
 
-    <script src="/socket.io/socket.io.js"></script>
-    <script>
-        var form = document.getElementById('form');
-        var input = document.getElementById('input');
-        const namespace = '/dynamic-0';
-        var socket = io(namespace);
-
-        form.addEventListener('submit', function(e){
-            e.preventDefault();
-            if(input.value){
-                socket.emit('first:chat message', input.value);
-                input.value = '';
-            }
-        });
-
-        var messages = document.getElementById('messages');
-        socket.on('chat message', function(msg){
-            console.log(msg);
-            var item = document.createElement('li');
-            item.textContent = msg;
-            messages.appendChild(item);
-            window.scrollTo(0, document.body.scrollHeight);
-        });
-    </script>
+    <button onclick = "createNamespace()">Create</button>
+    <button onclick = "joinNamespace()">join</button>
 </body>
+<script>
+    var username = document.getElementById('name');
+    var nsname = document.getElementById('nameSpace');
+
+    function createNamespace(){
+        if(username.value){
+            var name = Date.now();
+            name = '/dynamic-' + name.toString().substring(7);
+
+            sessionStorage.setItem('username', username.value);
+            sessionStorage.setItem('ns', name);
+            sessionStorage.setItem('method', 'createNamespace');
+            window.location.href= '/new';
+        }
+    }
+
+    function joinNamespace(){
+        if(username.value && nsname.value){
+            sessionStorage.setItem('username', username.value);
+            sessionStorage.setItem('ns', nsname.value);
+            sessionStorage.setItem('method', 'joinNamespace');
+            window.location.href= '/new';
+        }
+    }
+
+</script>
 </html>

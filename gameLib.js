@@ -26,13 +26,17 @@ class Game {
 
     addUser(namespace, username) {
         // ADD NEW USER TO GIVEN NAMESPACE
-        if(this.data[namespace].players[username] !== undefined){
-            // if user already exists crash the program
-            return false
+        try{
+            if(this.data[namespace].players[username] !== undefined){
+                return false
+            }
+            this.data[namespace].players[username] = {cards:[], tokens:0};
+            this.data[namespace].users.push(username);
+            return true;
+        }catch{
+            console.log('namespace: ' + namespace + ' doesnt exists');
+            return false;
         }
-        this.data[namespace].players[username] = {cards:[], tokens:0};
-        this.data[namespace].users.push(username);
-        return true;
     }
 
     addCard(namespace, username, card, tokens) {
@@ -92,6 +96,11 @@ class Game {
         return true;
     }
 
+    getAllUsers(namespace){
+        // return all users of a namespace
+        return this.getNameSpace(namespace).users;
+    }
+
     getNextCard(namespace){
         return this.data[namespace].me.cards.pop();
     }
@@ -124,37 +133,39 @@ class Game {
 
 }
 
-function print(str){
-    console.log(str);
+
+// export the Game class
+module.exports = {
+    Game: Game,
 }
 
 
-const game = new Game();
+// const game = new Game();
 
 
-if(!game.addNameSpace('ns1')){
-    print('namespace exists');
-    process.exit();
-}
+// if(!game.addNameSpace('ns1')){
+//     print('namespace exists');
+//     process.exit();
+// }
 
-game.addUser('ns1', 'usr1');
-game.addUser('ns1', 'usr2');
-game.addUser('ns1', 'usr3');
+// game.addUser('ns1', 'usr1');
+// game.addUser('ns1', 'usr2');
+// game.addUser('ns1', 'usr3');
 
-game.initialise('ns1');
+// game.initialise('ns1');
 
-// console.log(game.data)
-console.log(game.data['ns1'].me)
-// console.log(game.data['ns1'].players['usr1'])
-// console.log(game.data['ns1'].players['usr2'])
-// console.log(game.data['ns1'].players['usr3'])
-console.log(game.getNextCard('ns1'));
-console.log(game.data['ns1'].me)
-console.log(game.getNextPlayer('ns1'));
-console.log(game.data['ns1'].users);
-console.log(game.getNextPlayer('ns1'));
+// // console.log(game.data)
+// console.log(game.data['ns1'].me)
+// // console.log(game.data['ns1'].players['usr1'])
+// // console.log(game.data['ns1'].players['usr2'])
+// // console.log(game.data['ns1'].players['usr3'])
+// console.log(game.getNextCard('ns1'));
+// console.log(game.data['ns1'].me)
+// console.log(game.getNextPlayer('ns1'));
+// console.log(game.data['ns1'].users);
+// console.log(game.getNextPlayer('ns1'));
 
-console.log(game.data['ns1'].users);
+// console.log(game.data['ns1'].users);
 
 // game.addCard('ns1', 'usr1', 9, 5);
 // console.log(game.getUser('ns1', 'usr1'));
