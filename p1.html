@@ -7,38 +7,75 @@
     <title>P1</title>
 </head>
 <body>
-        <input type="text" id="name" />
-        <input type="text" id="nameSpace" />
-        <button onclick = "createNamespace()">Create</button>
-        <button onclick = "joinNamespace()">join</button>
-        <a href="/clint2">
-            <button>move</button>
-        </a>
+    <p>play area</p>
+    <div id="users"></div>
+    <div id="startButtonDiv"></div>
+    <!-- <button id="startButton" onclick="startGame()">Start</button> -->
 </body>
 <script src="/socket.io/socket.io.js"></script>
 <script>
-    // var username = document.getElementById('name');
-    // var nsName = document.getElementById('nameSpace');
-    // var buttons = document.getElementsByTagName('button');
-    // var namespace = document.getElementById('nameSpace');
-    // const namespace = '/dynamic-0';
+
+    // get attributes submitted by the user from previous page
     var username = sessionStorage.getItem('username');
     var namespace = sessionStorage.getItem('ns');
     var method = sessionStorage.getItem('method');
+    sessionStorage.clear();
 
+    // Authorizer Token (set if this client is authorizer)
+    var authToken = null;
+
+    // open a connection
     var socket = io(namespace);
 
+    // take action based on the required method
     if(method == 'createNamespace'){
-        createNamespace(username);
-    }else if(method == 'joinNamespace'){
-        joinNamespace(namespace, username);
+        if(username){
+            socket.emit('createNameSpace');
+            socket.emit('addUser', username);
+        }
+    }
+    else if(method == 'joinNamespace'){
+        // joinNamespace(namespace, username);
+        if(username && namespace){
+            socket.emit('addUser', username);
+        }
     }
 
-    socket.on('playersList', function(playersList){
-        console.log(playersList);
+    function startGame() {
+        socket.emit('startGame', authToken);
+    }
+
+
+
+    // ...SERVER CALLBACK FUNCTIONS...
+    socket.on('newUserAdded', (userList) => {
+        var userselem = document.getElementById('users');
+        userselem.innerHTML = '';
+
+        for(var i = 0; i<userList.length; i++){
+            var text = document.createElement('li');
+            text.textContent = userList[i];
+            userselem.appendChild(text);
+            window.scrollTo(0, document.body.scrollHeight);
+        }
+    });
+
+    socket.on('authoriser', (authtoken) => {
+        // you are an authorizer
+        authToken = authtoken;
+        // Draw the startGame button (only in authoriser client)
+        var startButtonDiv = document.getElementById('startButtonDiv');
+        var buttonElem = document.createElement('button');
+        buttonElem.addEventListener('click', function(){
+            socket.emit('startGame', authToken);
+        })
+        buttonElem.style.height = '100px';
+        buttonElem.style.width = '100px';
+        startButtonDiv.appendChild(buttonElem);
     });
 
     socket.on('connectionRefused', function(msg){
+    // No more space in the current namespace
         console.log(msg);
         // disable the buttons
         for(var i=0; i<buttons.length; i++){
@@ -47,48 +84,15 @@
     });
 
     socket.on('namespaceError', function(){
+    // error related namespace..cant be created
         console.log('namespace already exists!!!');
     });
 
     socket.on('usernameError', function(){
+    // error related to username...cant be created
         console.log('Username already exists!!!');
     });
 
-
-    function createNamespace(username){
-        if(username){
-            // var ns = createnewNS();
-            // !!! TODO : NEED TO CHECK IF NAMESPACE WAS ACTUALLY CREATED
-            // join that namespace...
-            var arg = {};
-            arg.ns = namespace;
-            arg.username = username;
-            socket.emit('addUser', arg);
-
-            console.log('namespace Created: ' + namespace);
-            console.log('user Created: ' + username);
-        }
-    }
-    
-    function createnewNS() {
-        var name = Date.now();
-    // const namespace = '/dynamic-0';
-        name = '/dynamic-' + name.toString().substring(7);
-        socket.emit('createNameSpace', name);
-        return name;
-    }
-
-    function joinNamespace(nsName, username){
-        if(username && nsName){
-
-            var arg = {};
-            arg.ns = nsName;
-            arg.username = username;
-            socket.emit('addUser', arg);
-
-            console.log('User joined: ' + username);
-        }
-    }
-
 </script>
+
 </html>
