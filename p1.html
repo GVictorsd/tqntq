@@ -6,12 +6,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>P1</title>
 </head>
+
 <body>
-    <p>play area</p>
-    <div id="users"></div>
-    <div id="startButtonDiv"></div>
-    <!-- <button id="startButton" onclick="startGame()">Start</button> -->
+    <div id="players">
+        <p>play area</p>
+        <div id="users"></div>
+        <div id="startButtonDiv"></div>
+    </div>
+
+    <div id="gameView" style="visibility: hidden">
+        <!-- Game View -->
+        <p>Players</p>
+        <p id="playercards"></p>
+        <p>Tokens</p>
+        <p id="tokenCount"></p>
+        <p>Current Card</p>
+        <p id="currCard"></p>
+        <button>Take</button>
+        <button>Pass</button>
+    </div>
 </body>
+
 <script src="/socket.io/socket.io.js"></script>
 <script>
 
@@ -23,6 +38,9 @@
 
     // Authorizer Token (set if this client is authorizer)
     var authToken = null;
+
+    var TOKENS = 0;         // total token count of this client
+    var CARDS = [];         // cards of this client
 
     // open a connection
     var socket = io(namespace);
@@ -40,11 +58,6 @@
             socket.emit('addUser', username);
         }
     }
-
-    function startGame() {
-        socket.emit('startGame', authToken);
-    }
-
 
 
     // ...SERVER CALLBACK FUNCTIONS...
@@ -74,6 +87,16 @@
         startButtonDiv.appendChild(buttonElem);
     });
 
+    socket.on('gameStarted', () => {
+    // Clear screen and draw the game view
+        var players = document.getElementById('players');
+        var gameView = document.getElementById('gameView');
+
+        players.style.visibility = 'hidden';
+        players.style.height = '0px';
+        gameView.style.visibility = 'visible';
+    })
+
     socket.on('connectionRefused', function(msg){
     // No more space in the current namespace
         console.log(msg);
@@ -91,6 +114,33 @@
     socket.on('usernameError', function(){
     // error related to username...cant be created
         console.log('Username already exists!!!');
+    });
+
+
+    // ##### GAME VIEW #####
+
+    socket.on('updateToken', (token) => {
+        TOKENS = token;
+        var tokenCount = document.getElementById('tokenCount');
+        tokenCount.textContent = '> ' + TOKENS;
+    })
+        // <p>Players</p>
+        // <p id="playercards"></p>
+        // <p>Tokens</p>
+        // <p id="tokenCount"></p>
+        // <p>Current Card</p>
+        // <p id="currCard"></p>
+    socket.on('updatePlayerCards', (arg) =>{
+        // console.log('player: ' + arg.player + 'cards: ' + arg.cards);
+        var playercards = document.getElementById('playercards');
+        playercards.textContent += 'player: ' + arg.player + 'cards: ' + arg.cards + '\n';
+    })
+
+    socket.on('nextCard', (arg) => {
+        var player = arg.player;
+        var card  = arg.card;
+        var currCard = document.getElementById('currCard');
+        currCard.textContent = 'player: ' + player + 'card: ' + card;
     });
 
 </script>

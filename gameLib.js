@@ -6,8 +6,8 @@ class Game {
     }
     // data structure (this.data)
     // data: {
-    //     ns1: {players: {..}, me: {cards:[]}, users: [], authorizerToken},
-    //     ns2: {players: {..}, me: {cards:[]}, users: [], authorizerToken},
+    //     ns1: {players: {usr1: {...}, usr2: {}}, me: {cards:[]}, users: []},
+    //     ns2: {players: {..}, me: {cards:[]}, users: []},
     //     ...
     // }
     // players: {
@@ -57,6 +57,11 @@ class Game {
         // Once this method is called, stop taking more
         // connections to this namespace
 
+        if(this.getUserCount < 3 || this.getUserCount > 7){
+        // if user count out of range
+            return false;
+        }
+
         var cardList = [];
         for(var i=3; i<35; i++){
             cardList.push(i);
@@ -88,7 +93,7 @@ class Game {
         }
 
 
-        return true;
+        return NoCounters;
     }
 
     getAllUsers(namespace){

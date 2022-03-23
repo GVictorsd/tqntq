@@ -65,16 +65,6 @@ io.of(/^\/dynamic-\d+$/).on('connection', (socket) => {
         console.log('New Namespace created: ' + NAMESPACE);
     });
 
-    socket.on('startGame', (authtoken) => {
-        if(game.getUserCount(NAMESPACE) >= MINPLAYERCOUNT && authToken[NAMESPACE] == authtoken){
-            console.log('GAME INITIALISED');
-            /////
-            ///
-            // *** GAME LOGIC ***
-        }
-    })
-
-
     socket.on('addUser', (username) => {
         // add new user to namespace in the game object
         if( ! game.addUser(NAMESPACE, username)){
@@ -88,8 +78,38 @@ io.of(/^\/dynamic-\d+$/).on('connection', (socket) => {
         io.of(NAMESPACE).emit('newUserAdded', game.getAllUsers(NAMESPACE));
         console.log('All users: ' + game.getAllUsers(NAMESPACE))
     });
+
+    socket.on('startGame', (authtoken) => {
+        if(game.getUserCount(NAMESPACE) >= MINPLAYERCOUNT && authToken[NAMESPACE] == authtoken){
+            console.log('GAME INITIALISED');
+            var tokenCount = game.initialise(NAMESPACE);
+            // update the tokenCount for each client
+            io.of(NAMESPACE).emit('updateToken', tokenCount);
+            // game started! redraw the screen to set GameView
+            io.of(NAMESPACE).emit('gameStarted');
+
+            // update players and their cards
+            var allUsers = game.getAllUsers(NAMESPACE);
+            for(var i=0; i<game.getUserCount(NAMESPACE); i++){
+                var arg = {};
+                arg.player = allUsers[i];
+                arg.cards = game.getUser(NAMESPACE, allUsers[i]);
+                console.log('player: ' + arg.player + 'Cards: ' + arg.cards);
+                io.of(NAMESPACE).emit('updatePlayerCards', arg);
+            }
+
+            // update next card and current player
+            var arg = {};
+            arg.card = game.getNextCard(NAMESPACE);
+            arg.player = game.getNextPlayer(NAMESPACE);
+            io.of(NAMESPACE).emit('nextCard', arg);
+        }
+    })
+
+    // TODO: socket.on('take', (user)) .. on('pass')
     
 });
+
 
 server.listen(3000, () => {
     console.log('listening on port 3000...');
