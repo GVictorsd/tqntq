@@ -22,8 +22,8 @@
         <p id="tokenCount"></p>
         <p>Current Card</p>
         <p id="currCard"></p>
-        <button>Take</button>
-        <button>Pass</button>
+        <button onclick="takeCard()">Take</button>
+        <button onclick="passCard()">Pass</button>
     </div>
 </body>
 
@@ -38,6 +38,7 @@
 
     // Authorizer Token (set if this client is authorizer)
     var authToken = null;
+    var PassCode;           // User pass code for verification at server
 
     var TOKENS = 0;         // total token count of this client
     var CARDS = [];         // cards of this client
@@ -72,6 +73,10 @@
             window.scrollTo(0, document.body.scrollHeight);
         }
     });
+
+    socket.on('setPassCode', (pscode) => {
+        PassCode = pscode;
+    })
 
     socket.on('authoriser', (authtoken) => {
         // you are an authorizer
@@ -119,6 +124,22 @@
 
     // ##### GAME VIEW #####
 
+    function takeCard(){
+        socket.emit('takecard', {'name': username, 'passCode': PassCode});
+    }
+
+    function passCard(){
+        socket.emit('passcard', {'name': username, 'passCode': PassCode});
+    }
+
+    socket.on('tookcard', (arg) => {
+        console.log(arg);
+    })
+
+    socket.on('passedcard', (arg) => {
+        console.log(arg);
+    })
+
     socket.on('updateToken', (token) => {
         TOKENS = token;
         var tokenCount = document.getElementById('tokenCount');
@@ -130,6 +151,8 @@
         // <p id="tokenCount"></p>
         // <p>Current Card</p>
         // <p id="currCard"></p>
+
+    
     socket.on('updatePlayerCards', (arg) =>{
         // console.log('player: ' + arg.player + 'cards: ' + arg.cards);
         var playercards = document.getElementById('playercards');

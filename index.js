@@ -67,7 +67,8 @@ io.of(/^\/dynamic-\d+$/).on('connection', (socket) => {
 
     socket.on('addUser', (username) => {
         // add new user to namespace in the game object
-        if( ! game.addUser(NAMESPACE, username)){
+        var usrPsCode = game.addUser(NAMESPACE, username);
+        if( ! usrPsCode){
             console.log('userAlready Exists!!');
             socket.emit('usernameError');
             return;
@@ -75,9 +76,11 @@ io.of(/^\/dynamic-\d+$/).on('connection', (socket) => {
 
         console.log('User Created: ' + username);
         // return the list of players in current namespace
+        socket.emit('setPassCode', usrPsCode);
         io.of(NAMESPACE).emit('newUserAdded', game.getAllUsers(NAMESPACE));
         console.log('All users: ' + game.getAllUsers(NAMESPACE))
     });
+
 
     socket.on('startGame', (authtoken) => {
         if(game.getUserCount(NAMESPACE) >= MINPLAYERCOUNT && authToken[NAMESPACE] == authtoken){
@@ -102,14 +105,51 @@ io.of(/^\/dynamic-\d+$/).on('connection', (socket) => {
             var arg = {};
             arg.card = game.getNextCard(NAMESPACE);
             arg.player = game.getNextPlayer(NAMESPACE);
+            currPlayer = arg.player;
+            currCard = arg.card;
             io.of(NAMESPACE).emit('nextCard', arg);
         }
     })
 
     // TODO: socket.on('take', (user)) .. on('pass')
+    socket.on('takecard', (user) => {
+        // user.name;
+        // user.passCode;
+        if(!game.validateUser(NAMESPACE, user.name, user.passCode)){
+            console.log('invalid passcode or operation');
+            return;
+        }
+        var currstatus = game.getCurrStatus(NAMESPACE);
+        var newstatus = game.addCard(NAMESPACE, currstatus.currPlayer, currstatus.currCard, currstatus.currTokens);
+
+        var nextcard = game.getNextCard(NAMESPACE);
+
+        io.of(NAMESPACE).emit('tookcard', {
+            'player': currstatus.currPlayer, 
+            'card': newstatus.cards,
+            // 'tokens': newstatus.tokens,
+            'nextCard': nextcard,
+            'nextPlayer': currstatus.currPlayer
+        });
+
+    })
+
+    socket.on('passcard', (user) => {
+        if(!game.validateUser(NAMESPACE, user.name, user.passCode)){
+            console.log('invalid passcode or operation');
+            return;
+        }
+        var currstatus = game.getCurrStatus(NAMESPACE);
+        var nextPlayer = game.getNextPlayer(NAMESPACE);
+        game.useToken(NAMESPACE, currstatus.currPlayer);
+        io.of(NAMESPACE).emit('passedcard', {
+            'nextPlayer': nextPlayer,
+            'tokens': currstatus.currTokens,
+            'card': currstatus.currCard
+        });
+    })
     
 });
-
 
 server.listen(3000, () => {
     console.log('listening on port 3000...');

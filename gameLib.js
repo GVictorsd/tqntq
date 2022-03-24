@@ -6,12 +6,14 @@ class Game {
     }
     // data structure (this.data)
     // data: {
-    //     ns1: {players: {usr1: {...}, usr2: {}}, me: {cards:[]}, users: []},
+    //     ns1: {players: {usr1: {...}, usr2: {}},
+                        // me: {cards:[], currCard = <int>, currPlayer=<str>, currTokens = <int>},
+                        // users: []},
     //     ns2: {players: {..}, me: {cards:[]}, users: []},
     //     ...
     // }
     // players: {
-    //     cards: [], tokens: <int>
+    //     passcode: <int>, cards: [], tokens: <int>
     // }
     
     addNameSpace (namespace) {
@@ -29,9 +31,11 @@ class Game {
         if(this.data[namespace].players[username] !== undefined){
             return false
         }
+        var pscode = parseInt(Math.random()*1e15);
         this.data[namespace].players[username] = {cards:[], tokens:0};
+        this.data[namespace].players[username].passcode = pscode;
         this.data[namespace].users.push(username);
-        return true;
+        return pscode;
     }
 
     addCard(namespace, username, card, tokens) {
@@ -50,7 +54,14 @@ class Game {
         if(user === undefined){
             return false;
         }
-        return user.tokens > 0 ? --user.tokens : false;
+        if(user.tokens > 0){
+            this.data[namespace].me.currTokens += 1;
+            return --user.tokens;
+        }
+        else{
+            return false;
+        }
+        // return user.tokens > 0 ? --user.tokens : false;
     }
 
     initialise(namespace){
@@ -96,6 +107,26 @@ class Game {
         return NoCounters;
     }
 
+    validateUser(namespace, username, passcode){
+        var userPsCode;
+        var currPlayerPasscode;
+        var curPlayer = this.getCurrStatus(namespace).currPlayer;
+        try{
+            userPsCode = this.data[namespace].players[username].passcode;
+            currPlayerPasscode = this.data[namespace].players[curPlayer].passcode;
+        }catch{
+            return false;
+        }
+
+        if(currPlayerPasscode == passcode && userPsCode == passcode){
+        // if the supplied passcode belongs to current player
+        // and and username and passcode match...
+            return true;
+        }
+        return false;
+        // return userPsCode == passcode ? true : false;
+    }
+
     getAllUsers(namespace){
         // return all users of a namespace
         return this.getNameSpace(namespace).users;
@@ -107,12 +138,27 @@ class Game {
     }
 
     getNextCard(namespace){
-        return this.data[namespace].me.cards.pop();
+        // set current card being played as a state and return it
+        this.data[namespace].me.currCard = this.data[namespace].me.cards.pop();
+        this.data[namespace].me.currTokens = 0;
+        return this.data[namespace].me.currCard;
     }
     getNextPlayer(namespace){
+        // set currplayer in the state and return the player
         var nextplayer = this.data[namespace].users[0];
         this.data[namespace].users.push(this.data[namespace].users.shift(1));
+        this.data[namespace].me.currPlayer = nextplayer;
         return nextplayer;
+    }
+
+
+    getCurrStatus(namespace){
+    // return current player and card
+        var temp = {};
+        temp.currPlayer = this.data[namespace].me.currPlayer;
+        temp.currCard = this.data[namespace].me.currCard;
+        temp.currTokens = this.data[namespace].me.currTokens;
+        return temp;
     }
 
     getNameSpace(namespace){
