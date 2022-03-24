@@ -46,6 +46,7 @@ class Game {
         user.cards.push(card);
         user.cards.sort();
         user.tokens += tokens;
+        this.data[namespace].me.currTokens = 0;
         return {'cards': user.cards, 'tokens': user.tokens};
     }
 

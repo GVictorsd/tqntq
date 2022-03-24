@@ -126,12 +126,13 @@ io.of(/^\/dynamic-\d+$/).on('connection', (socket) => {
 
         io.of(NAMESPACE).emit('tookcard', {
             'player': currstatus.currPlayer, 
-            'card': newstatus.cards,
+            'card': newstatus.cards.sort(),
             // 'tokens': newstatus.tokens,
             'nextCard': nextcard,
             'nextPlayer': currstatus.currPlayer
         });
 
+        socket.emit('updateToken', newstatus.tokens);
     })
 
     socket.on('passcard', (user) => {
@@ -141,12 +142,18 @@ io.of(/^\/dynamic-\d+$/).on('connection', (socket) => {
         }
         var currstatus = game.getCurrStatus(NAMESPACE);
         var nextPlayer = game.getNextPlayer(NAMESPACE);
-        game.useToken(NAMESPACE, currstatus.currPlayer);
+        var playerTokens = game.useToken(NAMESPACE, currstatus.currPlayer);
+        if(!playerTokens){
+            socket.emit('noTokens');
+            return;
+        }
         io.of(NAMESPACE).emit('passedcard', {
+            'passedPlayer': currstatus.currPlayer,
             'nextPlayer': nextPlayer,
-            'tokens': currstatus.currTokens,
+            'tokens': game.getCurrStatus(NAMESPACE).currTokens,
             'card': currstatus.currCard
         });
+        socket.emit('updateToken', playerTokens);
     })
     
 });

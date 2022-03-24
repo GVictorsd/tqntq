@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameView</title>
+</head>
+<style>
+    #level1{
+        height: 5em;
+        display: grid;
+        grid-template-columns:0.5fr 1fr 1fr ;
+    }
+    #level2{
+        height: 18em;
+        display: grid;
+        grid-template-columns: 3em 1fr;
+        /* grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); */
+    }
+    #score{
+        background-color: lightcoral;
+    }
+
+    #usrName{
+        background-color: lightpink;
+    }
+    #menu{
+        display: flex;
+        justify-content: space-evenly;
+        flex-direction: column;
+        position: relative;
+        top: 2.5%;
+        background-color: aquamarine;
+        margin: 0 auto;
+        height: 95%;
+        width: 80%;
+        border-radius: 10px;
+    }
+    #menu > *{
+        margin: 0 auto;
+        /* padding: 20%; */
+    }
+</style>
+<body>
+
+    <div id="level1">
+        <div id="usrName"></div>
+        <div></div>
+        <div id="score"></div>
+    </div>
+
+    <div id="level2">
+        <div id="menuCtnr" style="background-color: coral;">
+            <div id="menu"><p>a</p>
+            <p>b</p>
+            <p>c</p></div>
+        </div>
+
+        <div id="activeArea" style="background-color:cornflowerblue ">
+            <div style="position: relative; top:20%; margin:0 auto; height: 200px; width:100px;  background-color:darkcyan"></div>
+        </div>
+    </div>
+
+    <div id="level3">
+
+    </div>
+</body>
+</html>
