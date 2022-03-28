@@ -7,19 +7,24 @@
     <title>GameView</title>
 </head>
 <style>
+    body{
+        font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
     #level1{
         height: 5em;
         display: grid;
         grid-template-columns:0.5fr 1fr 1fr ;
     }
     #level2{
-        height: 18em;
-        display: grid;
-        grid-template-columns: 3em 1fr;
+        height: 20em;
+        /* display: grid;
+        grid-template-columns: 3em 1fr; */
         /* grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); */
     }
     #score{
         background-color: lightcoral;
+        display: flex;
+        justify-content: space-around;
     }
 
     #usrName{
@@ -41,29 +46,75 @@
         margin: 0 auto;
         /* padding: 20%; */
     }
+    #pass-button {
+        z-index: 2;
+        position:relative;
+        top: 13em;
+        left: 10em;
+        width: 50px;
+        height: 50px;
+        background-color:hotpink;
+        margin: 0 auto;
+    }
+    #take-button {
+        position:relative;
+        width: 50px;
+        height: 50px;
+        background-color:hotpink;
+        margin: 0 auto;
+    }
 </style>
 <body>
 
     <div id="level1">
-        <div id="usrName"></div>
+        <div id="usrName">
+            <p style="text-align: center; font-size: large;">UserName</p>
+        </div>
         <div></div>
-        <div id="score"></div>
+        <div id="score">
+            <div style="display: flex;" >
+            <div id="token-count" style="display: flex; margin: 10px; background-color:aquamarine; ">
+                <img src="./image.png" style="width: 25%;" alt="tokens"><p>19</p>
+            </div>
+            <div id="scorePanw" style=" display: flex; margin: 10px; background-color:aquamarine; ">
+                <img src="./image.png" style="width: 25%;" alt="Score"><p>21</p>
+            </div>
+            </div>
+
+
+        </div>
+    </div>
+
+    <div id="menuCtnr" style="background-color: coral; position: fixed; height: 60%; width: 2.5em;">
+        <div id="menu" >
+            <img src="./image.png" style="width:100%" alt="icon">
+            <img src="./image.png" style="width:100%" alt="icon">
+            <img src="./image.png" style="width:100%" alt="icon">
+            <img src="./image.png" style="width:100%" alt="icon">
+        </div>
     </div>
 
     <div id="level2">
-        <div id="menuCtnr" style="background-color: coral;">
-            <div id="menu"><p>a</p>
-            <p>b</p>
-            <p>c</p></div>
-        </div>
-
-        <div id="activeArea" style="background-color:cornflowerblue ">
-            <div style="position: relative; top:20%; margin:0 auto; height: 200px; width:100px;  background-color:darkcyan"></div>
+        <div id="activeArea" style="background-color:cornflowerblue " >
+            <div id="pass-button"></div>
+            <div style="position: relative; top:20%; margin:0 auto; height: 400px; width:200px;  background-color:darkcyan">
+                <div style="position: relative; background-color:beige; width: 80%; height: 80%; margin: 0 auto; top: 10%; font-size: 50px;">43
+                    <!-- <p style="position:relative; top:30%; left:40%; font-size: 50px;">76</p> -->
+                </div>
+                <div style="position:relative; top:0px; width: 4em; height: 4em; border-radius: 2em; background-color:chocolate;">29</div>
+            </div>
+            <br>
+            <div id="take-button"></div>
         </div>
     </div>
 
     <div id="level3">
+        <div id="myCards">
 
+        </div>
     </div>
+
+
+
 </body>
 </html>

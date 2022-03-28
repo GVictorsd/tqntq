@@ -26,6 +26,11 @@ app.get('/clint2', (req, res)=> {
     res.sendFile(__dirname + '/p2.html');
 });
 
+app.get('/gameView', (req, res) => {
+    // temporary route for testing frontend
+    res.sendFile(__dirname + '/gameView.html');
+});
+
 // CONSTANT NEED TO BE CONFIGURED
 const MINPLAYERCOUNT = 1;
 
