@@ -68,7 +68,7 @@
 
     <div id="level1">
         <div id="usrName">
-            <p style="text-align: center; font-size: large;">UserName</p>
+            <p style="text-align: center; font-size: large;" ></p>
         </div>
         <div></div>
         <div id="score">
@@ -95,26 +95,35 @@
     </div>
 
     <div id="level2">
-        <div id="activeArea" style="background-color:cornflowerblue " >
-            <div id="pass-button"></div>
+        <div id="activeArea" style="background-color:cornflowerblue; " >
+            <div id="pass-button" ></div>
             <div style="position: relative; top:20%; margin:0 auto; height: 400px; width:200px;  background-color:darkcyan">
-                <div style="position: relative; background-color:beige; width: 80%; height: 80%; margin: 0 auto; top: 10%; font-size: 50px;">43
+                <div id="card" style="position: relative; background-color:beige; width: 80%; height: 80%; margin: 0 auto; top: 10%; font-size: 50px;">43
                     <!-- <p style="position:relative; top:30%; left:40%; font-size: 50px;">76</p> -->
                 </div>
                 <div style="position:relative; top:0px; width: 4em; height: 4em; border-radius: 2em; background-color:chocolate;">29</div>
             </div>
             <br>
             <div id="take-button"></div>
+            <p id="currActiveUser" style="text-align: center; font-size: larger; height: 0px;"></p>
         </div>
     </div>
 
     <div id="level3">
         <div id="myCards">
+            <div style="width: 100px; height: 100px; background-color: pink;"></div>
 
         </div>
     </div>
 
-
-
 </body>
+
+<script>
+    // var mycrds = document.getElementById('myCards');
+    // var ctnr = document.createElement('div');
+    // ctnr.style.width = '100px';
+    // ctnr.style.height = '100px';
+    // ctnr.style.backgroundColor = 'pink';
+    // mycrds.appendChild(ctnr);
+</script>
 </html>

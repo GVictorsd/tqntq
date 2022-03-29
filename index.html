@@ -7,12 +7,48 @@
     <title>socketio</title>
 </head>
 <body>
+    <div style="display: flex; flex-direction: column; align-items: center;">
+        <div style="display: flex; justify-content:space-evenly ; position: relative; width: 150px; height: 100px; top:50px; left: 10%; border-radius: 25px 0 25px 0; background-color: violet;">
+            <div style="position:relative; top:50%; width:10px; height: 10px; background-color: aliceblue;"></div>
+            <div style="position:relative; top:50%; width:10px; height: 10px; background-color: aliceblue;"></div>
+        </div>
+        <!-- <div style=" z-index: 2; position: relative; width: 50px; height: 50px; top:1em; left: 20%; border-radius: 15px; background-color:tan;"></div>
+        <div style="z-index: 2; position: relative; width: 50px; height: 50px; right: 100px; top:-2em; border-radius: 15px; background-color: tan;"></div> -->
+
+        <div style="position: absolute; display: flex; flex-direction: column; justify-content: space-evenly; background-color:coral; width: 80%; height: 60%; left: 10%; top: 20%; border-radius: 50px;">
+            <div ></div>
+            <div style="position: relative; display: flex; justify-content: space-evenly;">
+                <p>User Name: </p>
+                <input type="text" id="name"  />
+            </div>
+            <div style="position: relative; display: flex; justify-content: space-evenly; ">
+                <p>Name Space </p>
+                <input type="text" id="name"  />
+            </div>
+
+            <div style="display: flex; justify-content: space-evenly; ">
+                <div style="width: 100px; height: 50px; background-color:burlywood; text-align: center;" onclick="joinNamespace()">
+                    <p style="border: 0 auto;">Join</p>
+                </div>
+                <div style="width: 100px; height: 50px; background-color:burlywood; text-align: center;" onclick="createNamespace()">
+                    <p style="border: 0 auto;">Create</p>
+                </div>
+                <!-- <button onclick = "createNamespace()" >Create</button>
+                <button onclick = "joinNamespace()">join</button> -->
+            </div>
+    
+        </div>
+
+    </div>
+</body>
+
+<!-- <body>
     <input type="text" id="name"  />
     <input type="text" id="nameSpace"  />
 
     <button onclick = "createNamespace()">Create</button>
     <button onclick = "joinNamespace()">join</button>
-</body>
+</body> -->
 <script>
     var username = document.getElementById('name');
     var nsname = document.getElementById('nameSpace');

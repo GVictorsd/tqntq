@@ -11,9 +11,11 @@ const game = new Game();
 
 authToken = {};
 
+// *** STATIC FILES *** //
+app.use(express.static(__dirname));
+
 
 // *** SERVER ROUTES *** //
-
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html');
 });
@@ -28,7 +30,8 @@ app.get('/clint2', (req, res)=> {
 
 app.get('/gameView', (req, res) => {
     // temporary route for testing frontend
-    res.sendFile(__dirname + '/gameView.html');
+    // res.sendFile(__dirname + '/gameView.html');
+    res.sendFile(__dirname + '/index.html');
 });
 
 // CONSTANT NEED TO BE CONFIGURED

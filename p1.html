@@ -7,6 +7,66 @@
     <title>P1</title>
 </head>
 
+
+<style>
+    body{
+        font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
+    #level1{
+        height: 5em;
+        display: grid;
+        grid-template-columns:0.5fr 1fr 1fr ;
+    }
+    #level2{
+        height: 20em;
+        /* display: grid;
+        grid-template-columns: 3em 1fr; */
+        /* grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); */
+    }
+    #score{
+        background-color: lightcoral;
+        display: flex;
+        justify-content: space-around;
+    }
+
+    #usrName{
+        background-color: lightpink;
+    }
+    #menu{
+        display: flex;
+        justify-content: space-evenly;
+        flex-direction: column;
+        position: relative;
+        top: 2.5%;
+        background-color: aquamarine;
+        margin: 0 auto;
+        height: 95%;
+        width: 80%;
+        border-radius: 10px;
+    }
+    #menu > *{
+        margin: 0 auto;
+        /* padding: 20%; */
+    }
+    #pass-button {
+        z-index: 2;
+        position:relative;
+        top: 13em;
+        left: 10em;
+        width: 50px;
+        height: 50px;
+        background-color:hotpink;
+        margin: 0 auto;
+    }
+    #take-button {
+        position:relative;
+        width: 50px;
+        height: 50px;
+        background-color:hotpink;
+        margin: 0 auto;
+    }
+</style>
+
 <body>
     <div id="players">
         <p>play area</p>
@@ -14,18 +74,98 @@
         <div id="startButtonDiv"></div>
     </div>
 
-    <div id="gameView" style="visibility: hidden">
+    <section id="gameView" style="visibility: hidden">
         <!-- Game View -->
-        <p>Players</p>
+        <!-- <p>Players</p>
         <p id="playercards"></p>
         <p>Tokens</p>
         <p id="tokenCount"></p>
         <p>Current Card</p>
         <p id="currCard"></p>
         <button onclick="takeCard()">Take</button>
-        <button onclick="passCard()">Pass</button>
-    </div>
+        <button onclick="passCard()">Pass</button> -->
+
+        <div id="level1">
+            <div id="usrName">
+                <p style="text-align: center; font-size: large;"></p>
+            </div>
+            <div></div>
+            <div id="score">
+                <div style="display: flex;" >
+                <div id="token-count" style="display: flex; margin: 10px; background-color:aquamarine; ">
+                    <img src="./image.png" style="width: 25%;" alt="tokens"><p>19</p>
+                </div>
+                <div id="scoreCtnr" style=" display: flex; margin: 10px; background-color:aquamarine; ">
+                    <img src="./image.png" style="width: 25%;" alt="Score"><p>21</p>
+                </div>
+                </div>
+
+
+            </div>
+        </div>
+
+        <div id="menuCtnr" style="background-color: coral; position: fixed; height: 60%; width: 2.5em;">
+            <div id="menu" >
+                <img src="./image.png" style="width:100%" alt="icon">
+                <img src="./image.png" style="width:100%" alt="icon">
+                <img src="./image.png" style="width:100%" alt="icon">
+                <img src="./image.png" style="width:100%" alt="icon">
+            </div>
+        </div>
+
+        <div id="level2">
+            <div id="activeArea" style="background-color:cornflowerblue " >
+                <div id="pass-button" onclick="passCard()"></div>
+                <div style="position: relative; top:20%; margin:0 auto; height: 400px; width:200px;  background-color:darkcyan">
+                    <div id="card" style="position: relative; background-color:beige; width: 80%; height: 80%; margin: 0 auto; top: 10%; font-size: 50px;">
+                        <!-- <p style="position:relative; top:30%; left:40%; font-size: 50px;">76</p> -->
+                    </div>
+                    <div id="cardToken" style="position:relative; top:0px; width: 4em; height: 4em; border-radius: 2em; background-color:chocolate;">0</div>
+                </div>
+                <br>
+                <div id="take-button" onclick="takeCard()"></div>
+
+                <p id="currActiveUser" style="text-align: center; font-size: larger; height: 0px;"></p>
+            </div>
+        </div>
+
+        <div id="level3">
+            <div id="myCards">
+
+            </div>
+        </div>
+
+
+    </section>
 </body>
+
+<script>
+// functions to change UI elements
+    function docSetUserName(name){
+        var usr = document.getElementById('usrName').firstElementChild;
+        usr.innerText = name;
+    }
+    function docSetToken(count){
+        var ctnr = document.getElementById('token-count').getElementsByTagName('p')[0];
+        ctnr.innerText = count;
+    }
+    function docSetScore(score){
+        var ctnr = document.getElementById('scoreCtnr').getElementsByTagName('p')[0];
+        ctnr.innerText = score;
+    }
+    function docSetCardNo(num){
+        var ctnr = document.getElementById('card');
+        ctnr.innerText = num;
+    }
+    function docSetCardToken(num){
+        var ctnr = document.getElementById('cardToken');
+        ctnr.innerText = num;
+    }
+    function docSetCurrUser(name){
+        var ctnr = document.getElementById('currActiveUser');
+        ctnr.innerText = name;
+    }
+</script>
 
 <script src="/socket.io/socket.io.js"></script>
 <script>
@@ -100,6 +240,9 @@
         players.style.visibility = 'hidden';
         players.style.height = '0px';
         gameView.style.visibility = 'visible';
+
+        // set username in the UI
+        docSetUserName(username);
     })
 
     socket.on('connectionRefused', function(msg){
@@ -134,16 +277,26 @@
 
     socket.on('tookcard', (arg) => {
         console.log(arg);
+        // arg.player
+        // arg.card
+        docSetCardNo(arg.nextCard );
+        docSetCurrUser(arg.nextPlayer);
+        docSetCardToken(0);
     })
 
     socket.on('passedcard', (arg) => {
         console.log(arg);
+        docSetCardNo(arg.card);
+        docSetCardToken(arg.tokens);
+        docSetCurrUser(arg.nextPlayer);
     })
 
     socket.on('updateToken', (token) => {
+    // update token count of this client
         TOKENS = token;
-        var tokenCount = document.getElementById('tokenCount');
-        tokenCount.textContent = '> ' + TOKENS;
+        docSetToken(TOKENS);
+        // var tokenCount = document.getElementById('tokenCount');
+        // tokenCount.textContent = '> ' + TOKENS;
     })
         // <p>Players</p>
         // <p id="playercards"></p>
@@ -162,8 +315,10 @@
     socket.on('nextCard', (arg) => {
         var player = arg.player;
         var card  = arg.card;
-        var currCard = document.getElementById('currCard');
-        currCard.textContent = 'player: ' + player + 'card: ' + card;
+        docSetCardNo(card);
+        docSetCurrUser(player);
+        // var currCard = document.getElementById('currCard');
+        // currCard.textContent = 'player: ' + player + 'card: ' + card;
     });
 
 </script>
