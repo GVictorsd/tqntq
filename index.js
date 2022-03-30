@@ -31,7 +31,7 @@ app.get('/clint2', (req, res)=> {
 app.get('/gameView', (req, res) => {
     // temporary route for testing frontend
     // res.sendFile(__dirname + '/gameView.html');
-    res.sendFile(__dirname + '/index.html');
+    res.sendFile(__dirname + '/gameView.html');
 });
 
 // CONSTANT NEED TO BE CONFIGURED
@@ -134,7 +134,7 @@ io.of(/^\/dynamic-\d+$/).on('connection', (socket) => {
 
         io.of(NAMESPACE).emit('tookcard', {
             'player': currstatus.currPlayer, 
-            'card': newstatus.cards.sort(),
+            'cards': newstatus.cards.sort((a,b) => {return a-b}),
             // 'tokens': newstatus.tokens,
             'nextCard': nextcard,
             'nextPlayer': currstatus.currPlayer

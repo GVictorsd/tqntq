@@ -21,6 +21,9 @@
         grid-template-columns: 3em 1fr; */
         /* grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); */
     }
+    #level3{
+        display: grid;
+    }
     #score{
         background-color: lightcoral;
         display: flex;
@@ -64,7 +67,47 @@
         margin: 0 auto;
     }
 </style>
+
 <body>
+    <div style="width: 10rem; height: 5rem; float: right; background-color:tan; text-align: center; ">
+        <p style="position: relative; top: 10%;">Start Game</p>
+    </div>
+
+    <br>
+    <p style="font-size: 50px; margin-left: 50px; color:darkgray;">Players</p>
+    <br><br><br>
+    <div id="players" style="display: grid; grid-template-columns: 1fr 1fr; margin-left: 10%; margin-right: 10%;"></div>
+
+</body>
+
+<script>
+    function docAddPlayerPlayersView(){
+        var playersCtnr = document.getElementById('players');
+        var playerCtnr = document.createElement('div');
+        playerCtnr.style.position = 'relative';
+        playerCtnr.style.width = '80%';
+        playerCtnr.style.height = '50px';
+        playerCtnr.style.marginBottom = '25px';
+        playerCtnr.style.backgroundColor = 'blue';
+        playerCtnr.textContent = "userhi";
+
+        playersCtnr.appendChild(playerCtnr);
+
+    }
+
+    docAddPlayerPlayersView()
+    docAddPlayerPlayersView()
+    docAddPlayerPlayersView()
+    docAddPlayerPlayersView()
+    docAddPlayerPlayersView()
+
+
+</script>
+
+
+
+
+<!-- <body>
 
     <div id="level1">
         <div id="usrName">
@@ -72,12 +115,12 @@
         </div>
         <div></div>
         <div id="score">
-            <div style="display: flex;" >
+            <div style="display: flex; max-height: 5em;" >
             <div id="token-count" style="display: flex; margin: 10px; background-color:aquamarine; ">
-                <img src="./image.png" style="width: 25%;" alt="tokens"><p>19</p>
+                <img src="./image.png" style="width: 50%; object-fit: contain; " alt="tokens"><p>19</p>
             </div>
             <div id="scorePanw" style=" display: flex; margin: 10px; background-color:aquamarine; ">
-                <img src="./image.png" style="width: 25%;" alt="Score"><p>21</p>
+                <img src="./image.png" style="width: 50%; object-fit: contain;" alt="Score"><p>21</p>
             </div>
             </div>
 
@@ -85,7 +128,7 @@
         </div>
     </div>
 
-    <div id="menuCtnr" style="background-color: coral; position: fixed; height: 60%; width: 2.5em;">
+    <div id="menuCtnr" style="z-index: 2; background-color: coral; position: fixed; height: 60%; width: 2.5em;">
         <div id="menu" >
             <img src="./image.png" style="width:100%" alt="icon">
             <img src="./image.png" style="width:100%" alt="icon">
@@ -99,7 +142,6 @@
             <div id="pass-button" ></div>
             <div style="position: relative; top:20%; margin:0 auto; height: 400px; width:200px;  background-color:darkcyan">
                 <div id="card" style="position: relative; background-color:beige; width: 80%; height: 80%; margin: 0 auto; top: 10%; font-size: 50px;">43
-                    <!-- <p style="position:relative; top:30%; left:40%; font-size: 50px;">76</p> -->
                 </div>
                 <div style="position:relative; top:0px; width: 4em; height: 4em; border-radius: 2em; background-color:chocolate;">29</div>
             </div>
@@ -110,20 +152,68 @@
     </div>
 
     <div id="level3">
-        <div id="myCards">
-            <div style="width: 100px; height: 100px; background-color: pink;"></div>
+        <div id="myCards" style="position: relative; top:12em; padding: 5% 10% 10% 10%;">
 
         </div>
     </div>
 
-</body>
+</body> -->
+
+<!-- <script>
+    function addNewScoreTable(uid){
+        var mycrds = document.getElementById('myCards');
+        var ctnr = document.createElement('div');
+        ctnr.style.width = '100%';
+        ctnr.style.height = '8em';
+        ctnr.style.backgroundColor = 'hotpink';
+        ctnr.style.marginTop = '20px';
+
+        var usrNamectnr = document.createElement('p');
+        usrNamectnr.textContent = 'User1';
+        // usrNamectnr.style.textAlign = 'center';
+        usrNamectnr.style.position = 'relative';
+        usrNamectnr.style.left = '7%';
+        usrNamectnr.style.height = '0px';
+        usrNamectnr.style.paddingTop = '10px';
+
+        var cardsCtnr = document.createElement('div');
+        cardsCtnr.style.backgroundColor = 'coral';
+        cardsCtnr.style.position = 'relative';
+        cardsCtnr.style.width = '90%';
+        cardsCtnr.style.height = '65%';
+        cardsCtnr.style.top = '5%';
+        cardsCtnr.style.left = '5%';
+        cardsCtnr.style.display = 'flex';
+
+        cardsCtnr.id = '**User' + uid;      // append char str to prevent collisions
+
+        cardsCtnr.style.backgroundColor = 'coral';
+
+
+        ctnr.appendChild(usrNamectnr);
+        ctnr.appendChild(cardsCtnr);
+        mycrds.appendChild(ctnr);
+    }
+
+    function addCard(uid, cards){
+        var cardsCtnr = document.getElementById('**User' + uid);
+
+        var card = document.createElement('div');
+        card.style.height = '20px';
+        card.style.width = '20px';
+        card.style.backgroundColor = 'beige';
+        card.textContent = cards;
+
+        cardsCtnr.appendChild(card);
+    }
+
+</script>
 
 <script>
-    // var mycrds = document.getElementById('myCards');
-    // var ctnr = document.createElement('div');
-    // ctnr.style.width = '100px';
-    // ctnr.style.height = '100px';
-    // ctnr.style.backgroundColor = 'pink';
-    // mycrds.appendChild(ctnr);
-</script>
+    addNewScoreTable('usr1');
+    addNewScoreTable('usr2');
+    addCard('usr1', 2);
+    addCard('usr1', 10);
+    addCard('usr2', 10);
+</script> -->
 </html>

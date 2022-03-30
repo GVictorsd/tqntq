@@ -69,9 +69,19 @@
 
 <body>
     <div id="players">
-        <p>play area</p>
+        <!-- <p>play area</p>
         <div id="users"></div>
-        <div id="startButtonDiv"></div>
+        <div id="startButtonDiv"></div> -->
+        <div id="startButtonDiv" style="visibility: hidden; width: 10rem; height: 5rem; float: right; background-color:tan; text-align: center; ">
+            <p style="position: relative; top: 10%;" >Start Game</p>
+        </div>
+
+        <br>
+        <p style="font-size: 50px; margin-left: 50px; color:darkgray;">Players</p>
+        <br><br><br>
+        <div id="playersViewList" style="display: grid; grid-template-columns: 1fr 1fr; margin-left: 10%; margin-right: 10%;"></div>
+
+        <button>INVITE</button>
     </div>
 
     <section id="gameView" style="visibility: hidden">
@@ -91,12 +101,13 @@
             </div>
             <div></div>
             <div id="score">
-                <div style="display: flex;" >
+                <div style="display: flex; max-height: 5em;" >
                 <div id="token-count" style="display: flex; margin: 10px; background-color:aquamarine; ">
-                    <img src="./image.png" style="width: 25%;" alt="tokens"><p>19</p>
+                    <img src="./image.png" style="width: 50%; object-fit: contain; " alt="tokens"><p></p>
                 </div>
-                <div id="scoreCtnr" style=" display: flex; margin: 10px; background-color:aquamarine; ">
-                    <img src="./image.png" style="width: 25%;" alt="Score"><p>21</p>
+                <div id="scorePanw" style=" display: flex; margin: 10px; background-color:aquamarine; ">
+                    <img src="./image.png" style="width: 50%; object-fit: contain;" alt="Score"><p>0</p>
+                    <!-- <img src="./image.png" style="width: 100%; height: auto; object-fit: contain;" alt="Score"><p>21</p> -->
                 </div>
                 </div>
 
@@ -129,17 +140,34 @@
             </div>
         </div>
 
-        <div id="level3">
-            <div id="myCards">
+    <div id="level3">
+        <div id="myCards" style="position: relative; top:12em; padding: 5% 10% 10% 10%;">
+            <!-- <div style="width: 100px; height: 100px; background-color: pink;"></div> -->
 
-            </div>
         </div>
+    </div>
 
 
     </section>
 </body>
 
 <script>
+
+// functions for players View
+    function docAddPlayerPlayersView(playerName){
+        var playersCtnr = document.getElementById('playersViewList');
+        var playerCtnr = document.createElement('div');
+        playerCtnr.style.position = 'relative';
+        playerCtnr.style.width = '80%';
+        playerCtnr.style.height = '50px';
+        playerCtnr.style.marginBottom = '25px';
+        playerCtnr.style.backgroundColor = 'blue';
+        playerCtnr.textContent = playerName;
+
+        playersCtnr.appendChild(playerCtnr);
+    }
+
+
 // functions to change UI elements
     function docSetUserName(name){
         var usr = document.getElementById('usrName').firstElementChild;
@@ -165,6 +193,60 @@
         var ctnr = document.getElementById('currActiveUser');
         ctnr.innerText = name;
     }
+
+
+    function addNewCardTable(uid){
+        var mycrds = document.getElementById('myCards');
+        var ctnr = document.createElement('div');
+        ctnr.style.width = '100%';
+        ctnr.style.height = '8em';
+        ctnr.style.backgroundColor = 'hotpink';
+        ctnr.style.marginTop = '20px';
+
+        var usrNamectnr = document.createElement('p');
+        usrNamectnr.textContent = uid;
+        // usrNamectnr.style.textAlign = 'center';
+        usrNamectnr.style.position = 'relative';
+        usrNamectnr.style.left = '7%';
+        usrNamectnr.style.height = '0px';
+        usrNamectnr.style.paddingTop = '10px';
+
+        var cardsCtnr = document.createElement('div');
+        cardsCtnr.style.backgroundColor = 'coral';
+        cardsCtnr.style.position = 'relative';
+        cardsCtnr.style.width = '90%';
+        cardsCtnr.style.height = '65%';
+        cardsCtnr.style.top = '5%';
+        cardsCtnr.style.left = '5%';
+        cardsCtnr.style.display = 'flex';
+
+        cardsCtnr.id = 'z' + uid;      // append char str to prevent collisions
+
+        cardsCtnr.style.backgroundColor = 'coral';
+
+
+        ctnr.appendChild(usrNamectnr);
+        ctnr.appendChild(cardsCtnr);
+        mycrds.appendChild(ctnr);
+    }
+
+    function addCard(uid, cards){
+        console.log('addCard uid: ' + uid + 'cards: ' + cards);
+        var ctnrid = 'z' + uid;
+        var cardsCtnr = document.getElementById(ctnrid);
+        cardsCtnr.innerHTML = '';
+
+        for(var i=0; i<cards.length; i++){
+            var card = document.createElement('div');
+            card.style.height = '20px';
+            card.style.width = '20px';
+            card.style.backgroundColor = 'beige';
+            card.textContent = cards[i];
+
+            cardsCtnr.appendChild(card);
+        }
+    }
+
 </script>
 
 <script src="/socket.io/socket.io.js"></script>
@@ -182,6 +264,7 @@
 
     var TOKENS = 0;         // total token count of this client
     var CARDS = [];         // cards of this client
+    var allPlayers = [];
 
     // open a connection
     var socket = io(namespace);
@@ -203,15 +286,19 @@
 
     // ...SERVER CALLBACK FUNCTIONS...
     socket.on('newUserAdded', (userList) => {
-        var userselem = document.getElementById('users');
-        userselem.innerHTML = '';
+        allPlayers = userList;
 
-        for(var i = 0; i<userList.length; i++){
-            var text = document.createElement('li');
-            text.textContent = userList[i];
-            userselem.appendChild(text);
-            window.scrollTo(0, document.body.scrollHeight);
-        }
+        docAddPlayerPlayersView(userList[userList.length - 1]);
+
+        // var userselem = document.getElementById('users');
+        // userselem.innerHTML = '';
+
+        // for(var i = 0; i<userList.length; i++){
+        //     var text = document.createElement('li');
+        //     text.textContent = userList[i];
+        //     userselem.appendChild(text);
+        //     window.scrollTo(0, document.body.scrollHeight);
+        // }
     });
 
     socket.on('setPassCode', (pscode) => {
@@ -222,14 +309,21 @@
         // you are an authorizer
         authToken = authtoken;
         // Draw the startGame button (only in authoriser client)
+        // var startButtonDiv = document.getElementById('startButtonDiv');
+        // var buttonElem = document.createElement('button');
+        // buttonElem.addEventListener('click', function(){
+        //     socket.emit('startGame', authToken);
+        // })
+        // buttonElem.style.height = '100px';
+        // buttonElem.style.width = '100px';
+        // startButtonDiv.appendChild(buttonElem);
+
         var startButtonDiv = document.getElementById('startButtonDiv');
-        var buttonElem = document.createElement('button');
-        buttonElem.addEventListener('click', function(){
+        startButtonDiv.style.visibility = 'visible';
+        startButtonDiv.addEventListener('click', function(){
             socket.emit('startGame', authToken);
         })
-        buttonElem.style.height = '100px';
-        buttonElem.style.width = '100px';
-        startButtonDiv.appendChild(buttonElem);
+
     });
 
     socket.on('gameStarted', () => {
@@ -237,12 +331,19 @@
         var players = document.getElementById('players');
         var gameView = document.getElementById('gameView');
 
+        document.getElementById('startButtonDiv').style.visibility = 'hidden';
+        document.getElementById('startButtonDiv').style.width = '0px';
         players.style.visibility = 'hidden';
         players.style.height = '0px';
         gameView.style.visibility = 'visible';
 
         // set username in the UI
         docSetUserName(username);
+
+        // add user card Tables
+        for(var i=0; i<allPlayers.length; i++){
+            addNewCardTable(allPlayers[i]);
+        }
     })
 
     socket.on('connectionRefused', function(msg){
@@ -278,10 +379,13 @@
     socket.on('tookcard', (arg) => {
         console.log(arg);
         // arg.player
-        // arg.card
+        // arg.cards
         docSetCardNo(arg.nextCard );
         docSetCurrUser(arg.nextPlayer);
         docSetCardToken(0);
+
+        // update corresponding card table of the user
+        addCard(arg.player, arg.cards);
     })
 
     socket.on('passedcard', (arg) => {
