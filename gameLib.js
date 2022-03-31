@@ -75,13 +75,14 @@ class Game {
         }
 
         var cardList = [];
-        for(var i=3; i<35; i++){
+        // for(var i=3; i<35; i++){
+        for(var i=3; i<9; i++){
             cardList.push(i);
         }
         cardList = this.__shuffle(cardList);
-        for(var i=0; i<9; i++){
-            cardList.splice(Math.floor(Math.random()*cardList.length), 1);
-        }
+        // for(var i=0; i<9; i++){
+        //     cardList.splice(Math.floor(Math.random()*cardList.length), 1);
+        // }
 
         this.data[namespace].me.cards = cardList;
 
@@ -135,7 +136,12 @@ class Game {
 
     getUserCount(namespace){
         // return current count of users in the namespace
-        return this.getNameSpace(namespace).users.length;
+        try{
+            return this.getNameSpace(namespace).users.length;
+        }catch{
+            // if namespace not exists yet...
+            return 0;
+        }
     }
 
     getNextCard(namespace){
@@ -144,6 +150,7 @@ class Game {
         this.data[namespace].me.currTokens = 0;
         return this.data[namespace].me.currCard;
     }
+
     getNextPlayer(namespace){
         // set currplayer in the state and return the player
         var nextplayer = this.data[namespace].users[0];
@@ -168,6 +175,20 @@ class Game {
 
     getUser(namespace, username) {
         return this.data[namespace].players[username];
+    }
+
+    getScores(namespace) {
+        var usrs = this.getAllUsers(namespace);
+        var result = {};
+        for(var i=0; i < usrs.length; i++){
+            var usr = this.getUser(namespace, usrs[i]);
+            var sum = 0;
+            for(var j=0; j<usr.cards.length; j++){
+                sum += usr.cards[i];
+            }
+            result[usrs[i]] = sum - usr.tokens;
+        }
+        return result;
     }
 
     __shuffle(arr){

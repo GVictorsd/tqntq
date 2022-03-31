@@ -1,3 +1,16 @@
+
+// TODO:
+
+// * check no of players joined and enable start button
+// * logic for ending game
+// * keep track of players scores
+// handle if one or more clients gets disconnected after connecting
+// clear memory if workspaces are ideal or not required
+// check for false return conditions from the gameLib class(errors)
+// sharing NameSpaces with other users(popup and message)
+// polish the UI(Color Scheme and stuff)
+
+
 const express = require('express');
 const app = express();
 const http = require('http');
@@ -35,21 +48,24 @@ app.get('/gameView', (req, res) => {
 });
 
 // CONSTANT NEED TO BE CONFIGURED
-const MINPLAYERCOUNT = 1;
+const MINPLAYERCOUNT = 3;
+const MAXCLIENTCOUNT = 7;
 
 io.of(/^\/dynamic-\d+$/).on('connection', (socket) => {
-    // TODO:: NEED TO IMPLEMENT
-    // if(++CLIENTCOUNT > MAXCLIENTCOUNT){
-    //     CLIENTCOUNT--;
-    //     console.log('no space!!!');
-    //     socket.emit('connectionRefused', "sorry no space");
-    //     socket.disconnect();
-    //     return;
-    // }
 
     // current namespace
     const NSOBJ = socket.nsp;
     const NAMESPACE = NSOBJ.name;
+
+
+    // check if max player count is being exceded
+    var usercount = game.getUserCount(NAMESPACE);
+    if(++usercount > MAXCLIENTCOUNT){
+        console.log('no Space !!!');
+        socket.emit('connectionRefused');
+        socket.disconnect();
+        return;
+    }
 
     console.log('a user logged with namespace: ' + NAMESPACE);
 
@@ -87,6 +103,12 @@ io.of(/^\/dynamic-\d+$/).on('connection', (socket) => {
         socket.emit('setPassCode', usrPsCode);
         io.of(NAMESPACE).emit('newUserAdded', game.getAllUsers(NAMESPACE));
         console.log('All users: ' + game.getAllUsers(NAMESPACE))
+
+        if(game.getUserCount(NAMESPACE) >= MINPLAYERCOUNT){
+            console.log('Min players available')
+            // enable the start game button
+            io.of(NAMESPACE).emit('enableStartButton');
+        }
     });
 
 
@@ -119,7 +141,7 @@ io.of(/^\/dynamic-\d+$/).on('connection', (socket) => {
         }
     })
 
-    // TODO: socket.on('take', (user)) .. on('pass')
+
     socket.on('takecard', (user) => {
         // user.name;
         // user.passCode;
@@ -132,6 +154,7 @@ io.of(/^\/dynamic-\d+$/).on('connection', (socket) => {
 
         var nextcard = game.getNextCard(NAMESPACE);
 
+
         io.of(NAMESPACE).emit('tookcard', {
             'player': currstatus.currPlayer, 
             'cards': newstatus.cards.sort((a,b) => {return a-b}),
@@ -141,6 +164,13 @@ io.of(/^\/dynamic-\d+$/).on('connection', (socket) => {
         });
 
         socket.emit('updateToken', newstatus.tokens);
+
+        // Game End Logic
+        if(nextcard === undefined){
+            var scoresList = game.getScores(NAMESPACE);
+            io.of(NAMESPACE).emit('endGame', scoresList);
+            return;
+        }
     })
 
     socket.on('passcard', (user) => {
