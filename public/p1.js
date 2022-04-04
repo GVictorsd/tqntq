@@ -113,6 +113,13 @@
         window.location.href = '/';
     });
 
+    socket.on('LoggedOut', () => {
+    // One or more users logged out!! Notify and end the game
+        console.log('A User Logged Out');
+        window.alert('Someone Logged Out :( ');
+        window.location.href = '/';
+    })
+
     socket.on('namespaceError', function(){
     // error related namespace..cant be created
         console.log('namespace already exists!!!');

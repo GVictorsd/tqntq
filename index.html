@@ -6,38 +6,74 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>socketio</title>
 </head>
-<body>
-    <div style="display: flex; flex-direction: column; align-items: center;">
-        <div style="display: flex; justify-content:space-evenly ; position: relative; width: 150px; height: 100px; top:50px; left: 10%; border-radius: 25px 0 25px 0; background-color: violet;">
-            <div style="position:relative; top:50%; width:10px; height: 10px; background-color: aliceblue;"></div>
-            <div style="position:relative; top:50%; width:10px; height: 10px; background-color: aliceblue;"></div>
-        </div>
-        <!-- <div style=" z-index: 2; position: relative; width: 50px; height: 50px; top:1em; left: 20%; border-radius: 15px; background-color:tan;"></div>
-        <div style="z-index: 2; position: relative; width: 50px; height: 50px; right: 100px; top:-2em; border-radius: 15px; background-color: tan;"></div> -->
+<style>
+    * {
+        margin: 0;
+    }
 
-        <div style="position: absolute; display: flex; flex-direction: column; justify-content: space-evenly; background-color:coral; width: 80%; height: 60%; left: 10%; top: 20%; border-radius: 50px;">
+    body{
+        display: -webkit-flex;
+        display: flex;
+        --webkit-flex-flow: column wrap;
+        flex-flow: column wrap;
+        overflow: hidden;
+        max-width: 100%;
+    }
+    @media  screen and (max-width: 667px) {
+        body{
+            overflow: hidden;
+            max-width: 100%;
+        }
+    }
+
+</style>
+
+<body >
+    <!-- <div style="position: absolute; left:40%; top:20%; width: 450px; 
+        z-index:1; height: 450px; border-radius: 200px; 
+        background-color: #f190b7;"></div> -->
+        <div style=" position: absolute; width: 20em; height: 20em;
+            z-index:1;  border-radius: 200px; top:2em; 
+            background: rgba(241, 144, 183, 0.7);
+            backdrop-filter: blur(5px); border: 1px solid rgba(241,144,183, 0.9);"></div>
+
+    <!-- <div style=" position:absolute; width:100%; height: 100%; display: grid; grid-template-columns: 2fr 1fr; background-image: linear-gradient(to top right, #f190b7,white 30%, #a63ec5);"> -->
+    <div style=" position:absolute; width:100%; height: 100%; display: flex; flex-direction: row; background-image: linear-gradient(to top right, #f190b7,white 30%, #a63ec5); overflow:hidden;">
+
+<!-- background-color: #a63ec5; -->
+            <!-- background: rgba(166, 62, 197, 0.2); box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37); -->
+        <div style="position: relative; z-index: 2;
+            display: flex; flex-direction: column; justify-content: space-evenly;
+            background: rgba(255, 255, 255, 0.15); box-shadow: 0 8px 16px 0 rgba(31, 38, 135, 0.37);
+            backdrop-filter: blur(9px); border: 3px solid rgba(255, 255, 255, 0.18);
+            width: 50em; height: 20em; left: 10%; top: 20%; padding: 25px;
+            border-radius: 50px;">
+
             <div ></div>
             <div style="position: relative; display: flex; justify-content: space-evenly;">
-                <p>User Name: </p>
-                <input type="text" id="name"  />
+                <p style="margin:5px;">User Name: </p>
+                <input type="text" id="name"  style="width: 50%; padding: 5px;" />
             </div>
             <div style="position: relative; display: flex; justify-content: space-evenly; ">
-                <p>Name Space </p>
-                <input type="text" id="nameSpace"  />
+                <p style="margin:5px;">NameSpace: </p>
+                <input type="text" id="nameSpace" style="width:50%; padding: 5px;" />
             </div>
 
             <div style="display: flex; justify-content: space-evenly; ">
-                <div style="width: 100px; height: 50px; background-color:burlywood; text-align: center;" onclick="joinNamespace()">
-                    <p style="border: 0 auto;">Join</p>
+                <div style="width: 100px; height: 50px; border-radius: 20px; border:1px solid #f190b7; background-image:linear-gradient(to left, #f473b9,  #ffbde6); text-align: center;" onclick="joinNamespace()">
+                    <p style="position: relative; top: 30%;">Join</p>
                 </div>
-                <div style="width: 100px; height: 50px; background-color:burlywood; text-align: center;" onclick="createNamespace()">
-                    <p style="border: 0 auto;">Create</p>
+                <div style="width: 100px; height: 50px; border-radius: 20px; border:1px solid #f190b7; background-image:linear-gradient(to left, #f473b9,  #ffbde6 ); text-align: center;" onclick="createNamespace()">
+                    <p style="position: relative; top: 30%;">Create</p>
                 </div>
                 <!-- <button onclick = "createNamespace()" >Create</button>
                 <button onclick = "joinNamespace()">join</button> -->
             </div>
     
         </div>
+
+        <div style="position: relative; width:20em; height: 20em;"></div>
+
 
     </div>
 </body>

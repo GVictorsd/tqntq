@@ -24,13 +24,25 @@ class Game {
         this.data[namespace] = {players:{}, me:{}, users:[]};
         return true;
     }
-    // TODO: methods to delete namespaces
+
+    delNameSpace (namespace) {
+        // delete the namespace
+        if(this.data[namespace] === undefined){
+            return false;
+        }
+        delete(this.data[namespace])
+        return true;
+    }
 
     addUser(namespace, username) {
         // ADD NEW USER TO GIVEN NAMESPACE
-        if(this.data[namespace].players[username] !== undefined){
-            return false
+
+        if(this.data[namespace] === undefined ||
+             this.data[namespace].players[username] !== undefined){
+            // if no such namespace exists or if user already exists
+            return false;
         }
+
         var pscode = parseInt(Math.random()*1e15);
         this.data[namespace].players[username] = {cards:[], tokens:0};
         this.data[namespace].players[username].passcode = pscode;
@@ -66,6 +78,9 @@ class Game {
     }
 
     initialise(namespace){
+        if(this.data[namespace] === undefined){
+            return false;
+        }
         // Once this method is called, stop taking more
         // connections to this namespace
 
@@ -131,6 +146,9 @@ class Game {
 
     getAllUsers(namespace){
         // return all users of a namespace
+        if(this.data[namespace] === undefined){
+            return 0;
+        }
         return this.getNameSpace(namespace).users;
     }
 
@@ -146,6 +164,9 @@ class Game {
 
     getNextCard(namespace){
         // set current card being played as a state and return it
+        if(this.data[namespace] === undefined){
+            return false;
+        }
         this.data[namespace].me.currCard = this.data[namespace].me.cards.pop();
         this.data[namespace].me.currTokens = 0;
         return this.data[namespace].me.currCard;
@@ -174,6 +195,10 @@ class Game {
     }
 
     getUser(namespace, username) {
+        if(this.data[namespace] === undefined){
+            // if no such namespace exists
+            return undefined;
+        }
         return this.data[namespace].players[username];
     }
 

@@ -4,11 +4,11 @@
 // * check no of players joined and enable start button
 // * logic for ending game
 // * keep track of players scores
-// handle if one or more clients gets disconnected after connecting
-// clear memory if workspaces are ideal or not required
+// * handle if one or more clients gets disconnected after connecting
+// * clear memory if workspaces are ideal or not required
 // check for false return conditions from the gameLib class(errors)
-// sharing NameSpaces with other users(popup and message)
 // polish the UI(Color Scheme and stuff)
+// sharing NameSpaces with other users(popup and message)
 
 
 const express = require('express');
@@ -37,8 +37,8 @@ app.get('/new', (req, res) => {
     res.sendFile(__dirname + '/p1.html');
 });
 
-app.get('/clint2', (req, res)=> {
-    res.sendFile(__dirname + '/p2.html');
+app.get('/index', (req, res)=> {
+    res.sendFile(__dirname + '/index1.html');
 });
 
 app.get('/gameView', (req, res) => {
@@ -71,7 +71,10 @@ io.of(/^\/dynamic-\d+$/).on('connection', (socket) => {
 
     socket.on('disconnect', () => {
     // client disconnect handler
-        console.log('disconnected');
+    // clear mem of the namespace and end the game
+        console.log('a user disconnected');
+        game.delNameSpace(NAMESPACE);
+        io.of(NAMESPACE).emit('LoggedOut');
     });
 
     socket.on('createNameSpace', () => {
