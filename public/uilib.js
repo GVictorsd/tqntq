@@ -6,12 +6,31 @@
 
         for(var i=0; i<playerList.length; i++){
             var ctnr = document.createElement('div');
+            var ctnrTxt = document.createElement('p');
+
             ctnr.style.position = 'relative';
+            // ctnr.style.width = '80%';
             ctnr.style.width = '80%';
-            ctnr.style.height = '50px';
-            ctnr.style.marginBottom = '25px';
-            ctnr.style.backgroundColor = 'blue';
-            ctnr.textContent = playerList[i];
+            ctnr.style.height = '5em';
+            ctnr.style.marginBottom = '2em';
+            // ctnr.style.backgroundColor = 'blue';
+            ctnr.style.background = 'rgba(255, 255, 255, 0.25)';
+            ctnr.style.boxShadow = '10px 10px 18px 0 rgba(31, 38, 135, 0.2)';
+            ctnr.style.backdropFilter = 'blur(10px);'
+            ctnr.style.border = '3px solid rgba(255, 255, 255, 0.18)';
+            ctnr.style.borderRadius = '20px';
+
+            ctnr.style.textAlign = 'center';
+            ctnrTxt.style.fontSize = '30px';
+            ctnrTxt.style.height= '0px';
+            ctnrTxt.style.position = 'relative';
+            ctnrTxt.style.top = '25%';
+            ctnrTxt.style.color = 'black';
+            
+
+            // ctnr.textContent = playerList[i];
+            ctnrTxt.textContent = playerList[i];
+            ctnr.appendChild(ctnrTxt);
 
             playersCtnr.appendChild(ctnr);
         }

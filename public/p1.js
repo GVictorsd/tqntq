@@ -80,20 +80,24 @@
     socket.on('enableStartButton', () => {
         console.log('enable Start Button !!!')
         var btn = document.getElementById('startButtonDiv');
-        btn.style.backgroundColor = 'darkcyan';
-        btn.style.textDecorationColor = 'black';
+        btn.style.backgroundColor = '#a63ec5';
+        btn.style.color = 'black';
     });
 
     socket.on('gameStarted', () => {
     // Clear screen and draw the game view
         var players = document.getElementById('players');
+        var playersCircle = document.getElementById('playersCircle');
         var gameView = document.getElementById('gameView');
 
         document.getElementById('startButtonDiv').style.visibility = 'hidden';
         document.getElementById('startButtonDiv').style.width = '0px';
         players.style.visibility = 'hidden';
+        playersCircle.style.visibility = 'hidden';
         players.style.height = '0px';
         gameView.style.visibility = 'visible';
+        document.getElementsByTagName('body')[0].style.overflowY = 'visible';
+        document.getElementsByTagName('body')[0].style.backgroundColor= 'cornflowerblue';
 
         // set username in the UI
         docSetUserName(username);

@@ -44,7 +44,7 @@ app.get('/index', (req, res)=> {
 app.get('/gameView', (req, res) => {
     // temporary route for testing frontend
     // res.sendFile(__dirname + '/gameView.html');
-    res.sendFile(__dirname + '/gameView.html');
+    res.sendFile(__dirname + '/p1.html');
 });
 
 // CONSTANT NEED TO BE CONFIGURED
