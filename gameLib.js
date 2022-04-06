@@ -209,11 +209,28 @@ class Game {
             var usr = this.getUser(namespace, usrs[i]);
             var sum = 0;
             for(var j=0; j<usr.cards.length; j++){
-                sum += usr.cards[i];
+                sum += usr.cards[j];
+                while(usr.cards[j] + 1 == usr.cards[j+1]){
+                    j++;
+                }
             }
             result[usrs[i]] = sum - usr.tokens;
         }
         return result;
+    }
+
+    getScoreOfUser(namespace, username){
+        var usr = this.getUser(namespace, username);
+        var usrcrds = usr.cards;
+        var tokens = usr.tokens;
+        var sum = 0;
+        for(var i=0; i< usrcrds.length; i++){
+            sum += usrcrds[i];
+            while(usrcrds[i] + 1 == usrcrds[i+1]){
+                i++;
+            }
+        }
+        return sum - tokens;
     }
 
     __shuffle(arr){

@@ -7,6 +7,9 @@
     <title>P1</title>
 </head>
 
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Sniglet:wght@400;800&display=swap');
+</style>
 
 <style>
     * {
@@ -20,7 +23,7 @@
         flex-flow: column wrap;
         overflow: hidden;
         max-width: 100%;
-        font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        font-family: 'Sniglet', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     }
     @media  screen and (max-width: 667px) {
         body{
@@ -89,12 +92,12 @@
 </style>
 
 <body>
-    <div id="playersCircle" style=" position: absolute; width: 20em; height: 20em;
+    <div id="playersCircle" style="visibility: visible; position: absolute; width: 20em; height: 20em;
         z-index:1; border-radius: 200px; top:2em; 
         background: rgba(241, 144, 183, 0.7);
         backdrop-filter: blur(5px); border: 1px solid rgba(241,144,183, 0.9);"></div>
 
-    <div id="players" style="position:absolute; width:100%; height: 100%; background-image: linear-gradient(to top right, #f190b7,white 30%, #a63ec5);">
+    <div id="players" style="visibility: visible; position:absolute; width:100%; height: 100%; background-image: linear-gradient(to top right, #f190b7,white 30%, #a63ec5);">
 
     <!-- <div style=" position:absolute; width:100%; height: 100%; display: flex; flex-direction: row; background-image: linear-gradient(to top right, #f190b7,white 30%, #a63ec5); overflow:hidden;"> -->
         <div id="startButtonDiv" style="z-index: 2; visibility: hidden; width: 25%; border-radius: 0 0 0 50px; height: 5rem; float: right; text-align: center; color:rgb(100, 100, 100); background-color: rgba(169, 169, 169, 0.5)">
@@ -111,20 +114,22 @@
 
     </div>
 
-    <div id="gameView" style="visibility: hidden; position:absolute; height:100%; width: 100%; background-color: cornflowerblue;">
+    <div id="gameView" style="visibility:hidden; position:absolute; height:100%; width: 100%; background-color: cornflowerblue;">
 
         <div id="level1">
             <div id="usrName">
-                <p style="text-align: center; font-size: large;"></p>
+                <p style="position: relative; top: 25%; text-align: center; font-size: 3ch;">User</p>
             </div>
             <div></div>
             <div id="score">
                 <div style="display: flex; max-height: 5em;" >
                 <div id="token-count" style="display: flex; margin: 10px; background: rgba(255,255,255, 0.6); backdrop-filter: blur(9px); border: 3px solid rgba(255, 255, 255, 0.4); ">
-                    <img src="./public/image.png" style="width: 50%; object-fit: contain; " alt="tokens"><p></p>
+                    <img src="./public/image.png" style="width: 50%; object-fit: contain; " alt="tokens">
+                    <p style="position: relative; top: 15%; font-size: 3ch;">12</p>
                 </div>
                 <div id="scorePanw" style=" display: flex; margin: 10px; background: rgba(255,255,255, 0.6); backdrop-filter: blur(9px); border: 3px solid rgba(255, 255, 255, 0.4); ">
-                    <img src="./public/image.png" style="width: 50%; object-fit: contain;" alt="Score"><p>0</p>
+                    <img src="./public/image.png" style="width: 50%; object-fit: contain;" alt="Score">
+                    <p style="position: relative; top: 15%; font-size: 3ch;">0</p>
                     <!-- <img src="./image.png" style="width: 100%; height: auto; object-fit: contain;" alt="Score"><p>21</p> --> </div> </div> </div>
         </div>
 
@@ -143,10 +148,13 @@
                     <img src="./public/arrow.png" alt="next" style="width: 45px;">
                 </div>
                 <div style="position: relative; top:20%; margin:0 auto; height: 400px; width:200px;  background-color:darkcyan">
-                    <div id="card" style="position: relative; background-color:beige; width: 80%; height: 80%; margin: 0 auto; top: 10%; font-size: 50px;">
+                    <div id="card" style="position: relative; background-color:beige; width: 80%; height: 80%; margin: 0 auto; top: 10%; font-size: 7ch;">
+                        <p id="cardNo" style="position: relative; top:25%; left:28%;">23</p>
                         <!-- <p style="position:relative; top:30%; left:40%; font-size: 50px;">76</p> -->
                     </div>
-                    <div id="cardToken" style="position:relative; top:0px; width: 4em; height: 4em; border-radius: 2em; background-color:chocolate;">0</div>
+                    <div id="cardToken" style="position:relative; top:0px; width: 4em; height: 4em; border-radius: 2em; background-color:chocolate;">
+                        <p id="cardTokenNo" style="position: relative; top: 20%; left: 30%; font-size: 3ch;">0</p>
+                    </div>
                 </div>
                 <br>
                 <div id="take-button" onclick="takeCard()">
@@ -171,5 +179,12 @@
 <script src="./public/uilib.js"></script>
 <script src="/socket.io/socket.io.js"></script>
 <script src="./public/p1.js"></script>
+<!-- <script>
+    document.getElementsByTagName('body')[0].style.overflowY = 'visible';
+    document.getElementsByTagName('body')[0].style.background = 'cornflowerblue';
+    addNewCardTable('User1');
+    addCard('User1', [2,2,8,1, 1, 2, 3,4,5,6,7, 4,5,7]);
+
+</script> -->
 
 </html>

@@ -14,6 +14,7 @@
 const express = require('express');
 const app = express();
 const http = require('http');
+const { SocketAddress } = require('net');
 const server = http.createServer(app);
 const { Server } = require('socket.io');
 const io = new Server(server);
@@ -121,6 +122,8 @@ io.of(/^\/dynamic-\d+$/).on('connection', (socket) => {
             var tokenCount = game.initialise(NAMESPACE);
             // update the tokenCount for each client
             io.of(NAMESPACE).emit('updateToken', tokenCount);
+            // initial Score
+            io.of(NAMESPACE).emit('updateScore', -tokenCount);
             // game started! redraw the screen to set GameView
             io.of(NAMESPACE).emit('gameStarted');
 
@@ -167,6 +170,8 @@ io.of(/^\/dynamic-\d+$/).on('connection', (socket) => {
         });
 
         socket.emit('updateToken', newstatus.tokens);
+        
+        socket.emit('updateScore', game.getScoreOfUser(NAMESPACE, user.name));
 
         // Game End Logic
         if(nextcard === undefined){
@@ -195,6 +200,8 @@ io.of(/^\/dynamic-\d+$/).on('connection', (socket) => {
             'card': currstatus.currCard
         });
         socket.emit('updateToken', playerTokens);
+
+        socket.emit('updateScore', game.getScoreOfUser(NAMESPACE, user.name));
     })
     
 });

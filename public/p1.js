@@ -97,6 +97,7 @@
         players.style.height = '0px';
         gameView.style.visibility = 'visible';
         document.getElementsByTagName('body')[0].style.overflowY = 'visible';
+        document.getElementsByTagName('body')[0].style.overflowX = 'hidden';
         document.getElementsByTagName('body')[0].style.backgroundColor= 'cornflowerblue';
 
         // set username in the UI
@@ -170,6 +171,10 @@
         docSetToken(TOKENS);
         // var tokenCount = document.getElementById('tokenCount');
         // tokenCount.textContent = '> ' + TOKENS;
+    })
+
+    socket.on('updateScore', (score) => {
+        docSetScore(score);
     })
         // <p>Players</p>
         // <p id="playercards"></p>
