@@ -7,8 +7,8 @@
 // * handle if one or more clients gets disconnected after connecting
 // * clear memory if workspaces are ideal or not required
 // check for false return conditions from the gameLib class(errors)
-// polish the UI(Color Scheme and stuff)
-// sharing NameSpaces with other users(popup and message)
+// * polish the UI(Color Scheme and stuff)
+// * sharing NameSpaces with other users(popup and message)
 
 
 const express = require('express');
@@ -47,6 +47,11 @@ app.get('/gameView', (req, res) => {
     // res.sendFile(__dirname + '/gameView.html');
     res.sendFile(__dirname + '/p1.html');
 });
+
+// app.get('/qstr', (req, res) => {
+//     console.log(req.query);
+//     res.send('id: ' + req.query.id);
+// })
 
 // CONSTANT NEED TO BE CONFIGURED
 const MINPLAYERCOUNT = 3;

@@ -58,7 +58,7 @@
             <div ></div>
             <div style="position: relative; display: flex; justify-content: space-evenly;">
                 <p style="margin:5px; font-size: large;">User Name: </p>
-                <input type="text" id="name"  style="width: 50%; padding: 5px;" />
+                <input type="text" id="name"  style="width: 50%; padding: 5px;"/>
             </div>
             <div style="position: relative; display: flex; justify-content: space-evenly; ">
                 <p style="margin:5px; font-size: large;">NameSpace: </p>
@@ -92,6 +92,17 @@
     <button onclick = "joinNamespace()">join</button>
 </body> -->
 <script>
+
+    // if namespace is shared via Query String, read and set the namespace
+    const params = new URLSearchParams(window.location.search);
+    if(params.has('ns')){
+        var ns = params.get('ns');
+        var nsfield = document.getElementById('nameSpace');
+        nsfield.value = ns;
+        nsfield.disabled = true;
+    }
+
+
     var username = document.getElementById('name');
     var nsname = document.getElementById('nameSpace');
 

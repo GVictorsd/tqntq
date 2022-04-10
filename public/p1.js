@@ -92,6 +92,7 @@
 
         document.getElementById('startButtonDiv').style.visibility = 'hidden';
         document.getElementById('startButtonDiv').style.width = '0px';
+        document.getElementById('namespaceurl').style.visibility = 'hidden';
         players.style.visibility = 'hidden';
         playersCircle.style.visibility = 'hidden';
         players.style.height = '0px';

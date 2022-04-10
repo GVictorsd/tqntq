@@ -8,8 +8,9 @@ class Game {
     // data: {
     //     ns1: {players: {usr1: {...}, usr2: {}},
                         // me: {cards:[], currCard = <int>, currPlayer=<str>, currTokens = <int>},
-                        // users: []},
-    //     ns2: {players: {..}, me: {cards:[]}, users: []},
+                        // users: [], 
+                        // initialized = <bool>},
+    //     ns2: {players: {..}, me: {cards:[]}, users: [], initialized = <bool>},
     //     ...
     // }
     // players: {
@@ -21,7 +22,7 @@ class Game {
         if(this.data[namespace] !== undefined){
             return false;
         }
-        this.data[namespace] = {players:{}, me:{}, users:[]};
+        this.data[namespace] = {players:{}, me:{}, users:[], initialized: false};
         return true;
     }
 
@@ -36,6 +37,12 @@ class Game {
 
     addUser(namespace, username) {
         // ADD NEW USER TO GIVEN NAMESPACE
+
+        // namespace already initialized, stop taking more
+        // connections to the namespace
+        if(this.data[namespace].initialized){
+            return false;
+        }
 
         if(this.data[namespace] === undefined ||
              this.data[namespace].players[username] !== undefined){
@@ -81,8 +88,12 @@ class Game {
         if(this.data[namespace] === undefined){
             return false;
         }
+
         // Once this method is called, stop taking more
         // connections to this namespace
+        if(this.data[namespace].initialized == false){
+            this.data[namespace].initialized = true;
+        }
 
         if(this.getUserCount < 3 || this.getUserCount > 7){
         // if user count out of range
@@ -90,14 +101,13 @@ class Game {
         }
 
         var cardList = [];
-        // for(var i=3; i<35; i++){
-        for(var i=3; i<9; i++){
+        for(var i=3; i<35; i++){
             cardList.push(i);
         }
         cardList = this.__shuffle(cardList);
-        // for(var i=0; i<9; i++){
-        //     cardList.splice(Math.floor(Math.random()*cardList.length), 1);
-        // }
+        for(var i=0; i<9; i++){
+            cardList.splice(Math.floor(Math.random()*cardList.length), 1);
+        }
 
         this.data[namespace].me.cards = cardList;
 

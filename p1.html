@@ -108,7 +108,14 @@
         <br><br><br>
         <div id="playersViewList" style="position: relative; z-index: 2; display: grid; grid-template-columns: 1fr 1fr; margin-left: 10%; margin-right: 10%;"></div>
 
-        <div style="position: fixed; right: 0%; width: 25%; bottom: 50px; z-index: 2; padding: 35px 30px 35px 30px; text-align: center; border-radius: 30px 0 0 30px; border:1px solid #f190b7; background-image:linear-gradient(to left, #f473b9,  #ffbde6);"> INVITE </div>
+        <div id="invite" style="position: fixed; right: 0%; width: 25%; bottom: 50px; z-index: 2;
+            padding: 35px 30px 35px 30px; text-align: center; border-radius: 30px 0 0 30px; border:1px solid #f190b7; 
+            background-image:linear-gradient(to left, #f473b9,  #ffbde6);" onclick="inviteToNamespace()">
+
+            <p id="inviteText" style="width: 100%; height:0px; font-size: x-large; text-align: center;">Invite</p>
+            <input id="namespaceurl" onclick="this.setSelectionRange(0, this.value.length)" style="visibility: hidden; width: 100%; overflow-x:auto; padding: 3px; border-radius: 5px; font-family:monospace; background-color: rgba(255, 255, 255, 0.25);"></input>
+
+        </div>
 <!-- padding: 40px 30px 40px 30px; -->
         <!-- <button style="position:fixed; float: left; z-index: 2;">INVITE</button> -->
 
@@ -123,17 +130,18 @@
             <div></div>
             <div id="score">
                 <div style="display: flex; max-height: 5em;" >
-                <div id="token-count" style="display: flex; margin: 10px; background: rgba(255,255,255, 0.6); backdrop-filter: blur(9px); border: 3px solid rgba(255, 255, 255, 0.4); ">
-                    <img src="./public/image.png" style="width: 50%; object-fit: contain; " alt="tokens">
-                    <p style="position: relative; top: 15%; font-size: 3ch;">12</p>
+                <div id="token-count" style="display: flex; margin: 10px 0 10px 10px; background: rgba(255,255,255, 0.6); backdrop-filter: blur(9px); border: 3px solid rgba(255, 255, 255, 0.4); ">
+                    <img src="./public/tokenIcon.png" style="width: 50%; object-fit: contain; margin: 0px; margin-right: 0px;" alt="tokens">
+                    <p style="position: relative; top: 15%; font-size: 25px;">12</p>
                 </div>
                 <div id="scorePanw" style=" display: flex; margin: 10px; background: rgba(255,255,255, 0.6); backdrop-filter: blur(9px); border: 3px solid rgba(255, 255, 255, 0.4); ">
-                    <img src="./public/image.png" style="width: 50%; object-fit: contain;" alt="Score">
-                    <p style="position: relative; top: 15%; font-size: 3ch;">0</p>
+                    <img src="./public/scoreIcon1.png" style="width: 50%; object-fit: contain; margin: 10px; margin-right: 0px;" alt="Score">
+                    <p style="position: relative; top: 15%; font-size: 25px;">0</p>
                     <!-- <img src="./image.png" style="width: 100%; height: auto; object-fit: contain;" alt="Score"><p>21</p> --> </div> </div> </div>
         </div>
 
-        <div id="menuCtnr" style="background-color: rgba(255, 255, 255, 0) ; position: fixed; height: 60%; width: 2.5em;">
+        <div id="menuCtnr" style="visibility:hidden; background-color: rgba(255, 255, 255, 0) ; position: fixed; height: 60%; width: 2.5em;">
+        <!-- !!! Side menu....Not being used currently -->
             <div id="menu" >
                 <img src="./public/image.png" style="width:100%" alt="icon">
                 <img src="./public/image.png" style="width:100%" alt="icon">
