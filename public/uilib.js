@@ -110,7 +110,9 @@ function addNewCardTable(uid){
     ctnr.style.width = '100%';
     ctnr.style.height = '10em';
 
-    ctnr.style.backgroundImage = 'linear-gradient(to top right, #f190b7, cornflowerblue)';
+    // ctnr.style.backgroundImage = 'linear-gradient(to top right, #f190b7, cornflowerblue)';
+    ctnr.style.backgroundImage = 'linear-gradient(to right, #faedcd, #d4a373)';
+    // ctnr.style.backgroundColor = '#faedcd';
     ctnr.style.marginTop = '20px';
     ctnr.style.borderRadius = '20px';
     ctnr.style.textAlign = 'center';
@@ -136,7 +138,8 @@ function addNewCardTable(uid){
 
     // cardsCtnr.style.backgroundImage =  'linear-gradient(to top right, #7fffd4, white 100%)';
     cardsCtnr.style.background = 'rgba(0, 0, 0, 0)';
-    cardsCtnr.style.border = '3px solid rgba(255, 255, 255, 0.18)';
+    // cardsCtnr.style.border = '3px solid rgba(255, 255, 255, 0.18)';
+    cardsCtnr.style.border = '3px solid gray';
     // cardsCtnr.style.backgroundColor = 'coral';
 
 

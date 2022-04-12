@@ -214,7 +214,7 @@ class Game {
 
     getScores(namespace) {
         var usrs = this.getAllUsers(namespace);
-        var result = {};
+        var result = [];
         for(var i=0; i < usrs.length; i++){
             var usr = this.getUser(namespace, usrs[i]);
             var sum = 0;
@@ -224,7 +224,8 @@ class Game {
                     j++;
                 }
             }
-            result[usrs[i]] = sum - usr.tokens;
+            // result[usrs[i]] = sum - usr.tokens;
+            result.push([usrs[i], sum-usr.tokens]);
         }
         return result;
     }

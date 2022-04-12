@@ -170,7 +170,7 @@ io.of(/^\/dynamic-\d+$/).on('connection', (socket) => {
             'player': currstatus.currPlayer, 
             'cards': newstatus.cards.sort((a,b) => {return a-b}),
             // 'tokens': newstatus.tokens,
-            'nextCard': nextcard,
+            'nextCard': nextcard ? nextcard : 0,    // if card is undefined send 0
             'nextPlayer': currstatus.currPlayer
         });
 

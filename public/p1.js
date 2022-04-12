@@ -144,7 +144,22 @@
     }
 
     function passCard(){
+        if(TOKENS == 0){
+            document.alert('Got no sufficient tokens :(');
+            return;
+        }
         socket.emit('passcard', {'name': username, 'passCode': PassCode});
+    }
+
+    function takePassState(activate) {
+        var active = '#f26ca7';
+        var inactive = 'gray';
+
+        var passbtn = document.getElementById('pass-button');
+        var takebtn = document.getElementById('take-button');
+
+        passbtn.style.backgroundColor = activate ? active : inactive;
+        takebtn.style.backgroundColor = activate ? active : inactive;
     }
 
     socket.on('tookcard', (arg) => {
@@ -157,6 +172,7 @@
 
         // update corresponding card table of the user
         addCard(arg.player, arg.cards);
+        takePassState(arg.nextPlayer == username);
     })
 
     socket.on('passedcard', (arg) => {
@@ -164,6 +180,8 @@
         docSetCardNo(arg.card);
         docSetCardToken(arg.tokens);
         docSetCurrUser(arg.nextPlayer);
+
+        takePassState(arg.nextPlayer == username);
     })
 
     socket.on('updateToken', (token) => {
@@ -196,11 +214,20 @@
         var card  = arg.card;
         docSetCardNo(card);
         docSetCurrUser(player);
-        // var currCard = document.getElementById('currCard');
-        // currCard.textContent = 'player: ' + player + 'card: ' + card;
+
+        // initialize colors of the take and pass buttons
+        takePassState(player == username);
     });
 
     socket.on('endGame', (ScoreList) => {
         // TODO: handle properly
-        console.log(ScoreList);
+        var res = ScoreList.sort((a, b) => {
+            return a[1] - b[1];
+        })
+        var scores = 'Congrats!! ' + res[0][0] + '\n' + 'Scores:\n';
+        for(var i = 0; i<res.length; i++){
+            scores += i+1 + '.  ' + res[i][0] + ' :  ' + res[i][1] + '\n';
+        }
+        window.alert(scores);
+        window.location.href = '/';
     });
