@@ -63,6 +63,12 @@ io.of(/^\/dynamic-\d+$/).on('connection', (socket) => {
     const NSOBJ = socket.nsp;
     const NAMESPACE = NSOBJ.name;
 
+    // check if game already initialized
+    // if(game.gameStarted(NAMESPACE)){
+    //     console.log('Game Already Started');
+    //     socket.disconnect();
+    //     return;
+    // }
 
     // check if max player count is being exceded
     var usercount = game.getUserCount(NAMESPACE);
@@ -78,9 +84,11 @@ io.of(/^\/dynamic-\d+$/).on('connection', (socket) => {
     socket.on('disconnect', () => {
     // client disconnect handler
     // clear mem of the namespace and end the game
-        console.log('a user disconnected');
-        game.delNameSpace(NAMESPACE);
-        io.of(NAMESPACE).emit('LoggedOut');
+        if(game.PlayerInNamespace(NAMESPACE, socket.id)){
+            console.log('A user logged out...');
+            game.delNameSpace(NAMESPACE);
+            io.of(NAMESPACE).emit('LoggedOut');
+        }
     });
 
     socket.on('createNameSpace', () => {
@@ -104,6 +112,7 @@ io.of(/^\/dynamic-\d+$/).on('connection', (socket) => {
         if( ! usrPsCode){
             console.log('userAlready Exists!!');
             socket.emit('usernameError');
+            socket.disconnect();
             return;
         }
 

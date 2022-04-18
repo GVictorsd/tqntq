@@ -8,7 +8,8 @@ class Game {
     // data: {
     //     ns1: {players: {usr1: {...}, usr2: {}},
                         // me: {cards:[], currCard = <int>, currPlayer=<str>, currTokens = <int>},
-                        // users: [], 
+                        // users: [user1, user2, ...],
+                        // socketId: [id1, id2],
                         // initialized = <bool>},
     //     ns2: {players: {..}, me: {cards:[]}, users: [], initialized = <bool>},
     //     ...
@@ -22,7 +23,7 @@ class Game {
         if(this.data[namespace] !== undefined){
             return false;
         }
-        this.data[namespace] = {players:{}, me:{}, users:[], initialized: false};
+        this.data[namespace] = {players:{}, me:{}, users:[], socketId:[], initialized: false};
         return true;
     }
 
@@ -35,7 +36,7 @@ class Game {
         return true;
     }
 
-    addUser(namespace, username) {
+    addUser(namespace, username, socketId) {
         // ADD NEW USER TO GIVEN NAMESPACE
 
         // namespace already initialized, stop taking more
@@ -46,14 +47,17 @@ class Game {
 
         if(this.data[namespace] === undefined ||
              this.data[namespace].players[username] !== undefined){
-            // if no such namespace exists or if user already exists
+            // if no such namespace exists or if user with the username already exists
             return false;
         }
 
         var pscode = parseInt(Math.random()*1e15);
+
         this.data[namespace].players[username] = {cards:[], tokens:0};
         this.data[namespace].players[username].passcode = pscode;
         this.data[namespace].users.push(username);
+        // socketIds of players which are part of the game
+        this.data[namespace].socketId.push(socketId);
         return pscode;
     }
 
@@ -89,11 +93,14 @@ class Game {
             return false;
         }
 
+        if(this.data[namespace].initialized){
+        // if the game already started, return
+            return false;
+        }
+
         // Once this method is called, stop taking more
         // connections to this namespace
-        if(this.data[namespace].initialized == false){
-            this.data[namespace].initialized = true;
-        }
+        this.data[namespace].initialized = true;
 
         if(this.getUserCount < 3 || this.getUserCount > 7){
         // if user count out of range
@@ -132,6 +139,14 @@ class Game {
 
 
         return NoCounters;
+    }
+
+
+    PlayerInNamespace(namespace, socketId){
+        // CHECK IF the player with SOCKET ID IS PART OF THE GAME
+
+        // note: can't get player using its socketId as players list keep changing
+        return socketId in this.data[namespace].socketId;
     }
 
     validateUser(namespace, username, passcode){
@@ -202,6 +217,10 @@ class Game {
 
     getNameSpace(namespace){
         return this.data[namespace];
+    }
+
+    gameStarted(namespace){
+        return this.data[namespace].initialized;
     }
 
     getUser(namespace, username) {
