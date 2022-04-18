@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help</title>
+</head>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Sniglet:wght@400;800&display=swap');
+</style>
+
+<style>
+
+    body{
+        display: -webkit-flex;
+        display: flex;
+        --webkit-flex-flow: column wrap;
+        flex-flow: column wrap;
+        overflow-x: hidden;
+        max-width: 100%;
+        font-family: 'Sniglet', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
+    @media  screen and (max-width: 667px) {
+        body{
+            overflow-x: hidden;
+            max-width: 100%;
+        }
+    }
+    .card-row{
+        display: flex;
+    }
+    .card{
+        width: 30px;
+        height: 30px;
+        border-radius: 10px;
+        background-color: tan;
+        text-align: center;
+        margin: 5px 10px 5px 10px;
+        padding-top: 10px;
+        border: 1px solid gray;
+    }
+    strong{
+        background-color: pink;
+        border-radius: 10px;
+        border-top: 5px;
+    }
+    li{
+        margin: 5px 10px 5px 10px;
+    }
+</style>
+
+<body>
+    <h1> HELP </h1>
+    <p>Hi there! This should help you get started with the game and have some great time with friends, umm Hopefully. <br><br> But first...</p>
+    <h2>The Rules!!</h2>
+    <li>
+        There's a deck of cards with every number between 3 and 35
+    </li>
+    <li>
+        Nine of these cards are randomly removed from the game and the rest are shuffled and are played with.
+    </li>
+
+    <li>Each of the players gets a fixed number of tokens.</li>
+
+    <li>
+        In each turn, a card is turned over from the deck of cards.
+    </li>
+
+    <li>
+        The active player can either <strong>pass</strong> the card over, <strong>along with one of their tokens</strong> to the next player or <strong>take the card with all the tokens on it.</strong>
+    </li>
+    <li>
+        If you have <strong>no tokens</strong> left, you <strong>must take the card</strong>
+    </li>
+    <li>
+        Once all the cards have been taken, the game ends.
+    </li>
+    <li>
+        Each players score is the sum of the numbers on their cards minus one point for each token with them.<br>
+        ie, <strong>Score = sum(Cards) - Number of tokens</strong>
+    </li>
+    <li>
+        The player with <strong>least points wins the game</strong>
+    </li>
+    <li>
+        In other terms, cards are bad and tokens are good.
+    </li>
+    <li>
+        And the last one... If you've got a stack of consecutive cards, only the lowest card of the stack counts.
+        <br><br>
+        <div class="card-row">
+            <div class="card">12</div>
+            <div style="padding-top:15px; "> is equal to => </div>
+            <div class="card">12</div>
+        </div>
+        <div class="card-row">
+            <div class="card">12</div>
+            <div class="card">13</div>
+            <div style="padding-top:15px; "> is equal to => </div>
+            <div class="card">12</div>
+        </div>
+        <div class="card-row">
+            <div class="card">9</div>
+            <div class="card">10</div>
+            <div class="card">11</div>
+            <div style="padding-top:15px; "> is equal to => </div>
+            <div class="card">9</div>
+        </div>
+    </li>
+
+        
+</body>
+</html>
