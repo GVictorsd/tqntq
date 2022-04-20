@@ -108,7 +108,7 @@ io.of(/^\/dynamic-\d+$/).on('connection', (socket) => {
 
     socket.on('addUser', (username) => {
         // add new user to namespace in the game object
-        var usrPsCode = game.addUser(NAMESPACE, username);
+        var usrPsCode = game.addUser(NAMESPACE, username, socket.id);
         if( ! usrPsCode){
             console.log('userAlready Exists!!');
             socket.emit('usernameError');

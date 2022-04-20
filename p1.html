@@ -89,9 +89,27 @@
         margin: 0 auto;
         border-radius: 20px;
     }
+
+    /* popup menu items style */
+    #optionsModal::backdrop {
+        background-color: rgb(0 0 0 / .3);
+    }
+
+    .menuItems {
+        width: 100%;
+        background-color: #f190b7;
+        padding-top: .5ch;
+        border-radius: 10px;
+        margin: 5px;
+        padding-bottom: .5ch;
+    }
 </style>
 
 <body>
+
+    <!-- popup Menu icon -->
+    <img id="optionsIcon" style="position: fixed; padding: 10px; z-index:4; width:45px;top: 35px; left: 35px;" onclick="showModal()" src="public/menu.png" alt="icon">
+
     <div id="playersCircle" style="visibility: visible; position: absolute; width: 20em; height: 20em;
         z-index:1; border-radius: 200px; top:2em; 
         background: rgba(241, 144, 183, 0.7);
@@ -189,7 +207,47 @@
 
 
     </div>
+
+    <!-- Popup menu dialog  -->
+    <dialog id="optionsModal" style="position: absolute; max-width: 50%; border-radius: 50px; border: 1px solid gray; padding: 2em; left:5em; top:8em; text-align: center;">
+        <div style="display: flex; flex-direction: column; justify-content: space-evenly; font-size: xx-large;">
+
+            <div id="helpOption" class="menuItems">
+                <strong>HELP</strong>
+            </div>
+
+            <div id="feedbackOption" class="menuItems">
+                <strong>Reach Out / Feedback</strong>
+            </div>
+
+        </div>
+        <br>
+        <img id="modelClose" src="public/close.png" alt="close" style=" width:50px; padding: 10px;" >
+    </dialog>
 </body>
+
+<script>
+    var modal = document.querySelector('#optionsModal');
+    var openModal = document.querySelector('#optionsIcon');
+    var closeModal = document.querySelector('#modelClose');
+    openModal.addEventListener('click', ()=> {
+        modal.showModal();
+    })
+    closeModal.addEventListener('click', () => {
+        modal.close();
+    })
+
+    document.querySelector('#helpOption').addEventListener('click', () => {
+    // handler for help option in the menu
+        window.open(
+            'rules.html', 'popUpWindow'
+        )
+    })
+    document.querySelector('#feedbackOption').addEventListener('click', () => {
+        var feedbackMsg = 'Tqntq Feedback';
+        window.location.href = "mailto:gvictorsd@gmail.com?Subject= " + feedbackMsg;
+    })
+</script>
 
 <script src="./public/uilib.js"></script>
 <script src="/socket.io/socket.io.js"></script>

@@ -41,17 +41,25 @@
         border: 1px solid gray;
     }
     strong{
-        background-color: pink;
+        /* background-color: pink; */
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0) 50%, #ffd0ae 50%);
         border-radius: 10px;
         border-top: 5px;
     }
     li{
         margin: 5px 10px 5px 10px;
     }
+    h1{
+        /* background-color:darkorchid; */
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0) 50%, #ffd0ae 50%);
+        border-radius: 10px;
+        width: fit-content;
+    }
+
 </style>
 
 <body>
-    <h1> HELP </h1>
+    <h1 style="font-size:xxx-large;"> HELP </h1>
     <p>Hi there! This should help you get started with the game and have some great time with friends, umm Hopefully. <br><br> But first...</p>
     <h2>The Rules!!</h2>
     <li>
@@ -61,7 +69,7 @@
         Nine of these cards are randomly removed from the game and the rest are shuffled and are played with.
     </li>
 
-    <li>Each of the players gets a fixed number of tokens.</li>
+    <li>Each of the players gets a fixed number of tokens at the start of the game.</li>
 
     <li>
         In each turn, a card is turned over from the deck of cards.
@@ -87,25 +95,25 @@
         In other terms, cards are bad and tokens are good.
     </li>
     <li>
-        And the last one... If you've got a stack of consecutive cards, only the lowest card of the stack counts.
+        Annnd the last one... If you've got a stack of consecutive cards, only the lowest card of the stack counts. That is,
         <br><br>
         <div class="card-row">
-            <div class="card">12</div>
+            <div class="card" style="background-color: #90dbf4;">6</div>
             <div style="padding-top:15px; "> is equal to => </div>
-            <div class="card">12</div>
+            <div class="card" style="background-color: #90dbf4;">6</div>
         </div>
         <div class="card-row">
-            <div class="card">12</div>
-            <div class="card">13</div>
+            <div class="card" style="background-color: #90dbf4;">12</div>
+            <div class="card" style="background-color: #caffbf;">13</div>
             <div style="padding-top:15px; "> is equal to => </div>
-            <div class="card">12</div>
+            <div class="card" style="background-color: #90dbf4;">12</div>
         </div>
         <div class="card-row">
-            <div class="card">9</div>
-            <div class="card">10</div>
-            <div class="card">11</div>
+            <div class="card" style="background-color: #90dbf4;">9</div>
+            <div class="card" style="background-color: #caffbf;">10</div>
+            <div class="card" style="background-color: #caffbf;">11</div>
             <div style="padding-top:15px; "> is equal to => </div>
-            <div class="card">9</div>
+            <div class="card" style="background-color: #90dbf4;">9</div>
         </div>
     </li>
 

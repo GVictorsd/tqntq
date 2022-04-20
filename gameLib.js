@@ -146,7 +146,14 @@ class Game {
         // CHECK IF the player with SOCKET ID IS PART OF THE GAME
 
         // note: can't get player using its socketId as players list keep changing
-        return socketId in this.data[namespace].socketId;
+        try{
+            if(~ this.data[namespace].socketId.indexOf(socketId)){
+                return true;
+            }
+            return false;
+        }catch{
+            return false;
+        }
     }
 
     validateUser(namespace, username, passcode){
