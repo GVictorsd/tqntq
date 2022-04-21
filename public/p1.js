@@ -115,25 +115,35 @@
         console.log("connection Refused");
 
         // go back to the starting page
-        window.alert('Current Namespace is full :( ');
+        window.alert("Can't join the playground :( \n Looks like this playground is full");
         window.location.href = '/';
     });
 
     socket.on('LoggedOut', () => {
     // One or more users logged out!! Notify and end the game
         console.log('A User Logged Out');
-        window.alert('Someone Logged Out :( ');
+        window.alert('Oops! Looks like someone Logged Out :( ');
         window.location.href = '/';
     })
 
     socket.on('namespaceError', function(){
     // error related namespace..cant be created
+        window.alert('Error creating the playground :(');
         console.log('namespace already exists!!!');
+        window.location.href = '/';
     });
 
-    socket.on('usernameError', function(){
+    socket.on('usernameError', (namespace) => {
     // error related to username...cant be created
+        window.alert('Looks like your User Name is already being used \n Or this game has already started\n Try using a different user name');
         console.log('Username already exists!!!');
+        console.log('/?ns=/' + namespace);
+        // set the namespace field if available
+        if(namespace){
+            window.location.href = '/?ns=' + namespace;
+        }else{
+            window.location.href = '/';
+        }
     });
 
 

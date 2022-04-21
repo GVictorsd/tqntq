@@ -111,7 +111,7 @@ io.of(/^\/dynamic-\d+$/).on('connection', (socket) => {
         var usrPsCode = game.addUser(NAMESPACE, username, socket.id);
         if( ! usrPsCode){
             console.log('userAlready Exists!!');
-            socket.emit('usernameError');
+            socket.emit('usernameError', NAMESPACE);
             socket.disconnect();
             return;
         }
