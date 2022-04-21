@@ -188,10 +188,11 @@
                 </div>
 
                 <br><br>
-                <div style="margin-left: 20px;">
+                <div style="margin-left: 20px; ">
                     <p style=" font-size: x-large;">Current Player</p>
-                    <p id="currActiveUser" style=" font-size: x-large;"><strong> </strong> </p>
-                    <br><br><br><br>
+                    <strong>
+                        <p id="currActiveUser" style=" font-size: x-large;">User1</p>
+                    </strong>
                 </div>
             </div>
         </div>
@@ -199,6 +200,7 @@
         <br><br>
 
         <div id="level3">
+            <br><br><br>
             <div id="myCards" style="position: relative; top:12em; padding: 5% 10% 10% 10%;">
                 <!-- <div style="width: 100px; height: 100px; background-color: pink;"></div> -->
 
@@ -253,8 +255,6 @@
 <script src="/socket.io/socket.io.js"></script>
 <script src="./public/p1.js"></script>
 <!-- <script>
-    document.getElementsByTagName('body')[0].style.overflowY = 'visible';
-    document.getElementsByTagName('body')[0].style.background = 'cornflowerblue';
     addNewCardTable('User1');
     addCard('User1', [2,2,8,1, 1, 2, 3,4,5,6,7, 4,5,7]);
 
