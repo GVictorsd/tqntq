@@ -108,7 +108,7 @@ class Game {
         }
 
         var cardList = [];
-        for(var i=3; i<35; i++){
+        for(var i=3; i<=35; i++){
             cardList.push(i);
         }
         cardList = this.__shuffle(cardList);
