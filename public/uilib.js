@@ -133,6 +133,7 @@ function addNewCardTable(uid){
     cardsCtnr.style.left = '5%';
     cardsCtnr.style.display = 'flex';
     cardsCtnr.style.flexWrap = 'wrap';
+    cardsCtnr.style.overflowY = 'scroll';
 
     cardsCtnr.id = 'z' + uid;      // append char str to prevent collisions
 

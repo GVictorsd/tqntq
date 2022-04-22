@@ -160,7 +160,7 @@
     function createNamespace(){
         if(username.value){
             var name = Date.now();
-            name = '/dynamic-' + name.toString().substring(7);
+            name = '/dynamic-' + name.toString().substring(4);
 
             sessionStorage.setItem('username', username.value);
             sessionStorage.setItem('ns', name);
